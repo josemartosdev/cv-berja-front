@@ -1,4 +1,4 @@
-import { apiUrl } from "../config/api.js";
+import { apiUrl } from "../services/apiClient.js";
 
 const TOKEN_KEY = "cv_berja_token";
 
@@ -26,7 +26,6 @@ export async function apiFetch(path, options = {}) {
   }
 
   const res = await fetch(apiUrl(path), {
-    credentials: "include",
     headers,
     ...options,
   });
@@ -50,7 +49,7 @@ export async function apiFetch(path, options = {}) {
       res.status === 401
         ? "No autenticado. Vuelve a iniciar sesión."
         : res.status >= 500
-          ? "Error del servidor. Comprueba que MySQL (XAMPP) y la API Symfony estén activos."
+          ? "Error del servidor. Comprueba la API y MySQL."
           : "Error en la petición";
     const err = new Error(data.error || data.message || fallback);
     err.status = res.status;

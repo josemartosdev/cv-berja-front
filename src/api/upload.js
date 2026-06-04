@@ -1,4 +1,4 @@
-import { apiUrl } from "../config/api.js";
+import { apiUrl } from "../services/apiClient.js";
 import { getAuthToken } from "./client";
 
 export async function uploadFile(url, file) {
@@ -7,16 +7,19 @@ export async function uploadFile(url, file) {
 
   const headers = {};
   const token = getAuthToken();
-  if (token) headers.Authorization = `Bearer ${token}`;
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
 
   const res = await fetch(apiUrl(url), {
     method: "POST",
-    credentials: "include",
     headers,
     body: form,
   });
 
   const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data.error || "Error al subir archivo");
+  if (!res.ok) {
+    throw new Error(data.error || "Error al subir el archivo");
+  }
   return data;
 }

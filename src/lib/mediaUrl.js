@@ -1,5 +1,8 @@
-import { assetUrl } from "../config/api.js";
+import { apiOrigin } from "../services/apiClient.js";
 
 export function mediaUrl(path) {
-  return assetUrl(path);
+  if (!path) return null;
+  if (path.startsWith("http")) return path;
+  const p = path.startsWith("/") ? path : `/${path}`;
+  return `${apiOrigin()}${p}`;
 }
