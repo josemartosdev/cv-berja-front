@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 
+# Secretos / API local (no subir a Git ni usar en build de Vercel)
+.env
+.env.local
+.env.*.local
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
