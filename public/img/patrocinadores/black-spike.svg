@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a0003"/>
+      <stop offset="100%" stop-color="#5a0000"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#g)"/>
+  <text x="600" y="420" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif" font-size="120" font-weight="800">BLACK SPIKE</text>
+  <text x="600" y="500" text-anchor="middle" fill="#ff6b75" font-family="Arial,sans-serif" font-size="32">Patrocinador CV Berja</text>
+</svg>

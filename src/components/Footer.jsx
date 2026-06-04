@@ -38,6 +38,7 @@ export default function Footer() {
               <li><Link to="/">Inicio</Link></li>
               <li><Link to="/historia">Historia</Link></li>
               <li><Link to="/equipos">Equipos</Link></li>
+              <li><Link to="/patrocinadores">Patrocinadores</Link></li>
               <li><Link to="/partidos">Partidos</Link></li>
             </ul>
           </div>

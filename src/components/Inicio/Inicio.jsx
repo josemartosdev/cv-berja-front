@@ -49,9 +49,14 @@ function Inicio() {
         <ResultadosCarousel />
         <RedesSociales />
         <section className="home-module home-module--sponsors">
-          <div className="home-module__header">
-            <span className="home-eyebrow">Patrocinadores</span>
-            <h2>Aliados del club</h2>
+          <div className="home-module__header home-module__header--row">
+            <div>
+              <span className="home-eyebrow">Patrocinadores</span>
+              <h2>Aliados del club</h2>
+            </div>
+            <Link to="/patrocinadores" className="home-module__link">
+              Ver área de patrocinadores →
+            </Link>
           </div>
           <SponsorsCarousel />
         </section>

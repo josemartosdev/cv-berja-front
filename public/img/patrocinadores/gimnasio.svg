@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <rect width="1200" height="800" fill="#111"/>
+  <rect x="200" y="280" width="120" height="240" rx="8" fill="#e30613" opacity="0.7"/>
+  <rect x="360" y="320" width="120" height="200" rx="8" fill="#e30613" opacity="0.5"/>
+  <text x="700" y="420" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif" font-size="72" font-weight="800">GIMNASIO BERJA</text>
+</svg>

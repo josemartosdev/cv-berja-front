@@ -1,20 +1,15 @@
-const sponsorsData = [
-  "Black Spike",
-  "Rojo Club",
-  "Arenas Tech",
-  "Zona Voley",
-  "Nike",
-  "Adidas",
-  "Decathlon",
-  "Puma",
-];
+import { MARQUEE_SPONSORS } from "../../data/sponsors";
 
 function SponsorsCarousel() {
+  const items = [...MARQUEE_SPONSORS, ...MARQUEE_SPONSORS];
+
   return (
     <div className="sponsors-marquee">
       <div className="sponsors-track">
-        {[...sponsorsData, ...sponsorsData].map((name, i) => (
-          <div className="sponsor-pill" key={i}>{name}</div>
+        {items.map((name, i) => (
+          <div className="sponsor-pill" key={`${name}-${i}`}>
+            {name}
+          </div>
         ))}
       </div>
     </div>

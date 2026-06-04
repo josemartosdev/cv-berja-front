@@ -1,12 +1,10 @@
-import Cabecera from "../components/Cabecera";
-import Footer from "../components/Footer";
+import PublicLayout from "../layouts/PublicLayout";
 import ReproductorDirecto from "../components/EnDirecto/ReproductorDirecto";
 import ProximosDirectos from "../components/EnDirecto/ProximosDirectos";
 
 export default function EnDirectoPage() {
   return (
-    <>
-      <Cabecera />
+    <PublicLayout>
       <div className="pagina-estandar pagina-directo">
         <div className="pagina-header">
           <span className="pagina-header__eyebrow">Streaming oficial</span>
@@ -21,7 +19,6 @@ export default function EnDirectoPage() {
           <ProximosDirectos />
         </div>
       </div>
-      <Footer />
-    </>
+    </PublicLayout>
   );
 }

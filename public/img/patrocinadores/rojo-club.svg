@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <rect width="1200" height="800" fill="#2a0508"/>
+  <circle cx="900" cy="200" r="280" fill="#e30613" opacity="0.35"/>
+  <text x="600" y="420" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif" font-size="110" font-weight="800">ROJO CLUB</text>
+</svg>

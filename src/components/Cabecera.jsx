@@ -9,6 +9,7 @@ const links = [
   { to: "/partidos", label: "Partidos" },
   { to: "/en-directo", label: "En Directo" },
   { to: "/historia", label: "Historia" },
+  { to: "/patrocinadores", label: "Patrocinadores" },
   { to: "/resultados", label: "Resultados" },
 ];
 

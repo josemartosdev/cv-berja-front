@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <rect width="1200" height="800" fill="#f0f4f8"/>
+  <rect x="520" y="260" width="160" height="280" fill="#e30613" rx="12"/>
+  <rect x="560" y="300" width="80" height="200" fill="#fff" rx="4"/>
+  <rect x="540" y="380" width="120" height="40" fill="#fff"/>
+  <text x="600" y="620" text-anchor="middle" fill="#1a1a1a" font-family="Arial,sans-serif" font-size="64" font-weight="800">FARMACIA CENTRAL</text>
+</svg>

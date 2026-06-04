@@ -1,5 +1,4 @@
-import Cabecera from "../components/Cabecera";
-import Footer from "../components/Footer";
+import PublicLayout from "../layouts/PublicLayout";
 import HistoriaHero from "../components/Historia/HistoriaHero";
 import Cronologia from "../components/Historia/Cronologia";
 import HistoriaChula from "../components/Historia/HistoriaChula";
@@ -8,8 +7,7 @@ import Logros from "../components/Historia/Logros";
 
 function History() {
   return (
-    <>
-      <Cabecera />
+    <PublicLayout className="web-public--historia">
       <div className="historia-pagina">
         <HistoriaHero />
         <div className="historia-stack">
@@ -19,8 +17,7 @@ function History() {
           <Logros />
         </div>
       </div>
-      <Footer />
-    </>
+    </PublicLayout>
   );
 }
 

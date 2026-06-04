@@ -1,12 +1,10 @@
-import Cabecera from "../components/Cabecera";
-import Footer from "../components/Footer";
+import PublicLayout from "../layouts/PublicLayout";
 import AgendaMes from "../components/Calendario/AgendaMes";
 import EventosEspeciales from "../components/Calendario/EventosEspeciales";
 
 export default function CalendarioPage() {
   return (
-    <>
-      <Cabecera />
+    <PublicLayout>
       <div className="pagina-estandar">
         <div className="pagina-header">
           <h1>Nuestro Calendario</h1>
@@ -17,7 +15,6 @@ export default function CalendarioPage() {
           <EventosEspeciales />
         </div>
       </div>
-      <Footer />
-    </>
+    </PublicLayout>
   );
 }

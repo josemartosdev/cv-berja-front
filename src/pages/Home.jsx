@@ -1,14 +1,11 @@
-import Cabecera from "../components/Cabecera";
+import PublicLayout from "../layouts/PublicLayout";
 import Inicio from "../components/Inicio/Inicio";
-import Footer from "../components/Footer";
 
 function Home() {
   return (
-    <>
-      <Cabecera />
+    <PublicLayout className="web-public--home">
       <Inicio />
-      <Footer />
-    </>
+    </PublicLayout>
   );
 }
 

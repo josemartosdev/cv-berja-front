@@ -1,12 +1,10 @@
-import Cabecera from "../components/Cabecera";
-import Footer from "../components/Footer";
+import PublicLayout from "../layouts/PublicLayout";
 import Categorias from "../components/Equipos/Categorias";
 import PlantillaDestacada from "../components/Equipos/PlantillaDestacada";
 
 export default function EquiposPage() {
   return (
-    <>
-      <Cabecera />
+    <PublicLayout>
       <div className="pagina-estandar pagina-equipos">
         <div className="pagina-header">
           <span className="pagina-header__eyebrow">Cantera y competición</span>
@@ -19,7 +17,6 @@ export default function EquiposPage() {
         <PlantillaDestacada />
         <Categorias />
       </div>
-      <Footer />
-    </>
+    </PublicLayout>
   );
 }

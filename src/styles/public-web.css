@@ -1,0 +1,250 @@
+/* Web pública — ancho completo + módulos de cuerpo en blanco (colores de marca intactos) */
+
+.app-shell {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.web-public {
+  flex: 1;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.web-public--home,
+.web-public--historia,
+.web-public--patro,
+.web-public .inicio,
+.web-public .pagina-estandar,
+.web-public .historia-pagina,
+.web-public.patrocinadores-pagina {
+  width: 100%;
+  max-width: none;
+}
+
+/* Cabecera y pie: ancho completo (mantienen su estilo oscuro en App.css) */
+.cabecera__inner,
+.footer-inner {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding-left: clamp(16px, 4vw, 48px);
+  padding-right: clamp(16px, 4vw, 48px);
+  box-sizing: border-box;
+}
+
+.footer {
+  width: 100%;
+}
+
+/* Hero / cabeceras de página: sin tocar colores (App.css) */
+.hero__inner,
+.hero__stats {
+  max-width: none;
+  width: 100%;
+  padding-left: clamp(20px, 4vw, 48px);
+  padding-right: clamp(20px, 4vw, 48px);
+  box-sizing: border-box;
+}
+
+.historia-hero__shell {
+  max-width: none;
+  width: 100%;
+  padding-left: clamp(16px, 4vw, 48px);
+  padding-right: clamp(16px, 4vw, 48px);
+  box-sizing: border-box;
+}
+
+/* ——— Cuerpo: módulos blancos / claros ——— */
+
+.web-public .home-modules {
+  background: #f4f5f8;
+}
+
+.web-public .noticias-section,
+.web-public .social-section,
+.web-public .home-module {
+  max-width: none;
+  width: 100%;
+  padding-left: clamp(20px, 4vw, 48px);
+  padding-right: clamp(20px, 4vw, 48px);
+  box-sizing: border-box;
+}
+
+.web-public .noticias-section,
+.web-public .social-section {
+  background: #ffffff;
+}
+
+.web-public .home-module--sponsors {
+  background: #ffffff;
+  border-top: 1px solid #eceef2;
+  border-bottom: 1px solid #eceef2;
+}
+
+/* Franja de resultados sigue oscura; solo ancho completo */
+.web-public .scoreboard-section {
+  width: 100%;
+  padding-left: clamp(20px, 4vw, 48px);
+  padding-right: clamp(20px, 4vw, 48px);
+  box-sizing: border-box;
+}
+
+.web-public .scoreboard-header,
+.web-public .scoreboard-grid {
+  max-width: none;
+  width: 100%;
+}
+
+/* Páginas internas: cuerpo claro, bloques blancos */
+.web-public .pagina-estandar {
+  max-width: none;
+  width: 100%;
+  padding: clamp(32px, 5vh, 56px) clamp(16px, 4vw, 48px) clamp(48px, 8vh, 88px);
+  box-sizing: border-box;
+  background: linear-gradient(180deg, #fff8f8 0%, #ffffff 35%, #f7f8fa 100%);
+}
+
+.web-public .equipos-section,
+.web-public .historia-panel--light,
+.web-public .historia-info-card,
+.web-public .historia-team-card,
+.web-public .historia-goals-card {
+  background: #ffffff;
+}
+
+.web-public .historia-stack {
+  width: 100%;
+  max-width: none;
+  padding-left: clamp(16px, 4vw, 48px);
+  padding-right: clamp(16px, 4vw, 48px);
+  box-sizing: border-box;
+}
+
+/* Patrocinadores: hero y CTA oscuros (App.css); carrusel con panel de texto blanco */
+.web-public.patrocinadores-pagina {
+  min-height: calc(100vh - 68px);
+  min-height: calc(100dvh - 68px);
+  background: #0d0d0d;
+}
+
+.web-public .patro-carousel__content {
+  background: #ffffff;
+  border-left: 1px solid #eceef2;
+}
+
+.web-public .patro-carousel__media-shade {
+  background: linear-gradient(90deg, transparent 42%, rgba(255, 255, 255, 0.97) 100%);
+}
+
+.web-public .patro-carousel__count {
+  color: #b30000;
+}
+
+.web-public .patro-carousel__content h2 {
+  color: #111111;
+}
+
+.web-public .patro-carousel__tagline {
+  color: #e30613;
+}
+
+.web-public .patro-carousel__desc {
+  color: #5f6167;
+}
+
+.web-public .patro-carousel__meta {
+  border-top-color: #eceef2;
+}
+
+.web-public .patro-carousel__meta > span {
+  color: #888888;
+}
+
+.web-public .patro-carousel__link {
+  background: #e30613;
+  border-color: #e30613;
+  color: #ffffff;
+}
+
+.web-public .patro-carousel__thumbs {
+  background: #ffffff;
+  border-top: 1px solid #eceef2;
+}
+
+.web-public .patro-carousel__thumb {
+  color: #666666;
+  border-right-color: #f0f1f4;
+}
+
+.web-public .patro-carousel__thumb--active {
+  color: #b30000;
+  background: rgba(227, 6, 19, 0.08);
+}
+
+.web-public .patro-carousel__thumb:hover {
+  color: #111111;
+  background: #f6f7fa;
+}
+
+.web-public .patro-carousel__nav {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: #e4e7ec;
+  color: #333333;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.15);
+}
+
+.web-public .patro-carousel__nav:hover {
+  background: #e30613;
+  border-color: #e30613;
+  color: #ffffff;
+}
+
+.web-public .patro-carousel__dots {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #e4e7ec;
+}
+
+.web-public .patro-carousel__dot {
+  background: #d0d4dc;
+}
+
+.web-public .patro-carousel__dot--active {
+  background: #e30613;
+}
+
+@media (max-width: 1024px) {
+  .web-public .patro-carousel__slide {
+    grid-template-rows: min(42vh, 420px) auto;
+  }
+
+  .web-public .patro-carousel__media-shade {
+    background: linear-gradient(180deg, transparent 40%, rgba(255, 255, 255, 0.97) 100%);
+  }
+
+  .web-public .patro-carousel__content {
+    border-left: none;
+    border-top: 1px solid #eceef2;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero__inner {
+    grid-template-columns: 1fr;
+    padding-top: 48px;
+    padding-bottom: 32px;
+  }
+
+  .hero__stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hero__stat:nth-child(2) {
+    border-right: none;
+  }
+}

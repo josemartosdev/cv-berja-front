@@ -1,12 +1,10 @@
-import Cabecera from "../components/Cabecera";
-import Footer from "../components/Footer";
+import PublicLayout from "../layouts/PublicLayout";
 import Clasificacion from "../components/Resultados/Clasificacion";
 import HistorialPartidos from "../components/Resultados/HistorialPartidos";
 
 export default function ResultadosPage() {
   return (
-    <>
-      <Cabecera />
+    <PublicLayout>
       <div className="pagina-estandar pagina-resultados">
         <div className="pagina-header">
           <span className="pagina-header__eyebrow">Temporada 2025-26</span>
@@ -18,7 +16,6 @@ export default function ResultadosPage() {
           <HistorialPartidos />
         </div>
       </div>
-      <Footer />
-    </>
+    </PublicLayout>
   );
 }
