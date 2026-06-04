@@ -419,7 +419,7 @@ export default function JugadoresPage() {
                 currentPath={fotoPath}
                 disabled={!canEdit}
                 onUpload={async (file) => {
-                  const res = await uploadFile(`/api/gestion/players/${editing.id}/photo`, file);
+                  const res = await uploadFile(`/gestion/players/${editing.id}/photo`, file);
                   setFotoPath(res.foto_path);
                   await load();
                 }}

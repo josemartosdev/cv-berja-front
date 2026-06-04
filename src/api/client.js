@@ -1,4 +1,5 @@
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
+import { apiUrl } from "../config/api.js";
+
 const TOKEN_KEY = "cv_berja_token";
 
 export function getAuthToken() {
@@ -24,7 +25,7 @@ export async function apiFetch(path, options = {}) {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const res = await fetch(`${API_BASE}${path}`, {
+  const res = await fetch(apiUrl(path), {
     credentials: "include",
     headers,
     ...options,
@@ -61,7 +62,7 @@ export async function apiFetch(path, options = {}) {
 
 export const authApi = {
   login: async (username, password) => {
-    const data = await apiFetch("/api/auth/login", {
+    const data = await apiFetch("/auth/login", {
       method: "POST",
       body: JSON.stringify({ username, password }),
     });
@@ -72,10 +73,10 @@ export const authApi = {
   },
   logout: async () => {
     try {
-      await apiFetch("/api/auth/logout", { method: "POST" });
+      await apiFetch("/auth/logout", { method: "POST" });
     } finally {
       setAuthToken(null);
     }
   },
-  me: () => apiFetch("/api/auth/me"),
+  me: () => apiFetch("/auth/me"),
 };

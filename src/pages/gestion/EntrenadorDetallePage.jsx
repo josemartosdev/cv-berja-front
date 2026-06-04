@@ -102,7 +102,7 @@ export default function EntrenadorDetallePage() {
 
   const uploadDiagram = async (tacticId, file) => {
     if (!coachId) return;
-    await uploadFile(`/api/gestion/coaches/${coachId}/tactics/${tacticId}/diagram`, file);
+    await uploadFile(`/gestion/coaches/${coachId}/tactics/${tacticId}/diagram`, file);
     await load();
   };
 
@@ -134,7 +134,7 @@ export default function EntrenadorDetallePage() {
               label="Foto"
               currentPath={coach.foto_path}
               onUpload={async (file) => {
-                const res = await uploadFile(`/api/gestion/coaches/${coach.id}/photo`, file);
+                const res = await uploadFile(`/gestion/coaches/${coach.id}/photo`, file);
                 setCoach({ ...coach, foto_path: res.foto_path });
               }}
             />

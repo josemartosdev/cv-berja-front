@@ -1,7 +1,5 @@
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
+import { assetUrl } from "../config/api.js";
 
 export function mediaUrl(path) {
-  if (!path) return null;
-  if (path.startsWith("http")) return path;
-  return `${API_BASE}${path}`;
+  return assetUrl(path);
 }

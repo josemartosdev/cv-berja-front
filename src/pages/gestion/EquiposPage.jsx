@@ -313,7 +313,7 @@ export default function EquiposPage() {
                 label="Foto del equipo"
                 currentPath={fotoPath}
                 onUpload={async (file) => {
-                  const res = await uploadFile(`/api/gestion/teams/${editing.id}/photo`, file);
+                  const res = await uploadFile(`/gestion/teams/${editing.id}/photo`, file);
                   setFotoPath(res.foto_path);
                   await load();
                 }}

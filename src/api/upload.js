@@ -1,6 +1,5 @@
+import { apiUrl } from "../config/api.js";
 import { getAuthToken } from "./client";
-
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 export async function uploadFile(url, file) {
   const form = new FormData();
@@ -10,7 +9,7 @@ export async function uploadFile(url, file) {
   const token = getAuthToken();
   if (token) headers.Authorization = `Bearer ${token}`;
 
-  const res = await fetch(`${API_BASE}${url}`, {
+  const res = await fetch(apiUrl(url), {
     method: "POST",
     credentials: "include",
     headers,

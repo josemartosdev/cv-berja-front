@@ -79,7 +79,7 @@ export default function PlayerMedicalPanel({ playerId, canEdit }) {
   };
 
   const uploadCert = async (recordId, file) => {
-    await uploadFile(`/api/gestion/players/${playerId}/medical/${recordId}/certificate`, file);
+    await uploadFile(`/gestion/players/${playerId}/medical/${recordId}/certificate`, file);
     await load();
   };
 

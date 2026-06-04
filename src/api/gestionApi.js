@@ -2,117 +2,117 @@ import { apiFetch } from "./client";
 
 export const gestionApi = {
   teams: {
-    list: () => apiFetch("/api/gestion/teams"),
+    list: () => apiFetch("/gestion/teams"),
     create: (body) =>
-      apiFetch("/api/gestion/teams", { method: "POST", body: JSON.stringify(body) }),
+      apiFetch("/gestion/teams", { method: "POST", body: JSON.stringify(body) }),
     update: (id, body) =>
-      apiFetch(`/api/gestion/teams/${id}`, {
+      apiFetch(`/gestion/teams/${id}`, {
         method: "PATCH",
         body: JSON.stringify(body),
       }),
-    remove: (id) => apiFetch(`/api/gestion/teams/${id}`, { method: "DELETE" }),
+    remove: (id) => apiFetch(`/gestion/teams/${id}`, { method: "DELETE" }),
   },
   players: {
     list: (teamId) => {
       const q = teamId ? `?teamId=${teamId}` : "";
-      return apiFetch(`/api/gestion/players${q}`);
+      return apiFetch(`/gestion/players${q}`);
     },
-    get: (id) => apiFetch(`/api/gestion/players/${id}`),
+    get: (id) => apiFetch(`/gestion/players/${id}`),
     create: (body) =>
-      apiFetch("/api/gestion/players", { method: "POST", body: JSON.stringify(body) }),
+      apiFetch("/gestion/players", { method: "POST", body: JSON.stringify(body) }),
     update: (id, body) =>
-      apiFetch(`/api/gestion/players/${id}`, {
+      apiFetch(`/gestion/players/${id}`, {
         method: "PATCH",
         body: JSON.stringify(body),
       }),
-    remove: (id) => apiFetch(`/api/gestion/players/${id}`, { method: "DELETE" }),
-    suggestUsername: (id) => apiFetch(`/api/gestion/players/${id}/suggest-username`),
+    remove: (id) => apiFetch(`/gestion/players/${id}`, { method: "DELETE" }),
+    suggestUsername: (id) => apiFetch(`/gestion/players/${id}/suggest-username`),
     updateCredentials: (id, body) =>
-      apiFetch(`/api/gestion/players/${id}/credentials`, {
+      apiFetch(`/gestion/players/${id}/credentials`, {
         method: "PATCH",
         body: JSON.stringify(body),
       }),
   },
   payments: {
-    list: () => apiFetch("/api/gestion/payments"),
+    list: () => apiFetch("/gestion/payments"),
     create: (body) =>
-      apiFetch("/api/gestion/payments", { method: "POST", body: JSON.stringify(body) }),
+      apiFetch("/gestion/payments", { method: "POST", body: JSON.stringify(body) }),
     update: (id, body) =>
-      apiFetch(`/api/gestion/payments/${id}`, {
+      apiFetch(`/gestion/payments/${id}`, {
         method: "PATCH",
         body: JSON.stringify(body),
       }),
-    remove: (id) => apiFetch(`/api/gestion/payments/${id}`, { method: "DELETE" }),
-    feePlans: () => apiFetch("/api/gestion/payments/fee-plans"),
+    remove: (id) => apiFetch(`/gestion/payments/${id}`, { method: "DELETE" }),
+    feePlans: () => apiFetch("/gestion/payments/fee-plans"),
     createFeePlan: (body) =>
-      apiFetch("/api/gestion/payments/fee-plans", {
+      apiFetch("/gestion/payments/fee-plans", {
         method: "POST",
         body: JSON.stringify(body),
       }),
     updateFeePlan: (id, body) =>
-      apiFetch(`/api/gestion/payments/fee-plans/${id}`, {
+      apiFetch(`/gestion/payments/fee-plans/${id}`, {
         method: "PATCH",
         body: JSON.stringify(body),
       }),
     removeFeePlan: (id) =>
-      apiFetch(`/api/gestion/payments/fee-plans/${id}`, { method: "DELETE" }),
+      apiFetch(`/gestion/payments/fee-plans/${id}`, { method: "DELETE" }),
   },
   coaches: {
-    list: () => apiFetch("/api/gestion/coaches"),
-    me: () => apiFetch("/api/gestion/coaches/me"),
+    list: () => apiFetch("/gestion/coaches"),
+    me: () => apiFetch("/gestion/coaches/me"),
     updateMe: (body) =>
-      apiFetch("/api/gestion/coaches/me", { method: "PATCH", body: JSON.stringify(body) }),
-    get: (id) => apiFetch(`/api/gestion/coaches/${id}`),
+      apiFetch("/gestion/coaches/me", { method: "PATCH", body: JSON.stringify(body) }),
+    get: (id) => apiFetch(`/gestion/coaches/${id}`),
     create: (body) =>
-      apiFetch("/api/gestion/coaches", { method: "POST", body: JSON.stringify(body) }),
+      apiFetch("/gestion/coaches", { method: "POST", body: JSON.stringify(body) }),
     update: (id, body) =>
-      apiFetch(`/api/gestion/coaches/${id}`, {
+      apiFetch(`/gestion/coaches/${id}`, {
         method: "PATCH",
         body: JSON.stringify(body),
       }),
-    remove: (id) => apiFetch(`/api/gestion/coaches/${id}`, { method: "DELETE" }),
+    remove: (id) => apiFetch(`/gestion/coaches/${id}`, { method: "DELETE" }),
     tactics: {
-      list: (coachId) => apiFetch(`/api/gestion/coaches/${coachId}/tactics`),
+      list: (coachId) => apiFetch(`/gestion/coaches/${coachId}/tactics`),
       create: (coachId, body) =>
-        apiFetch(`/api/gestion/coaches/${coachId}/tactics`, {
+        apiFetch(`/gestion/coaches/${coachId}/tactics`, {
           method: "POST",
           body: JSON.stringify(body),
         }),
       update: (coachId, tacticId, body) =>
-        apiFetch(`/api/gestion/coaches/${coachId}/tactics/${tacticId}`, {
+        apiFetch(`/gestion/coaches/${coachId}/tactics/${tacticId}`, {
           method: "PATCH",
           body: JSON.stringify(body),
         }),
       remove: (coachId, tacticId) =>
-        apiFetch(`/api/gestion/coaches/${coachId}/tactics/${tacticId}`, {
+        apiFetch(`/gestion/coaches/${coachId}/tactics/${tacticId}`, {
           method: "DELETE",
         }),
     },
   },
   medical: {
-    list: (playerId) => apiFetch(`/api/gestion/players/${playerId}/medical`),
+    list: (playerId) => apiFetch(`/gestion/players/${playerId}/medical`),
     create: (playerId, body) =>
-      apiFetch(`/api/gestion/players/${playerId}/medical`, {
+      apiFetch(`/gestion/players/${playerId}/medical`, {
         method: "POST",
         body: JSON.stringify(body),
       }),
     update: (playerId, id, body) =>
-      apiFetch(`/api/gestion/players/${playerId}/medical/${id}`, {
+      apiFetch(`/gestion/players/${playerId}/medical/${id}`, {
         method: "PATCH",
         body: JSON.stringify(body),
       }),
     remove: (playerId, id) =>
-      apiFetch(`/api/gestion/players/${playerId}/medical/${id}`, { method: "DELETE" }),
+      apiFetch(`/gestion/players/${playerId}/medical/${id}`, { method: "DELETE" }),
   },
   users: {
-    list: () => apiFetch("/api/gestion/users"),
+    list: () => apiFetch("/gestion/users"),
     create: (body) =>
-      apiFetch("/api/gestion/users", { method: "POST", body: JSON.stringify(body) }),
+      apiFetch("/gestion/users", { method: "POST", body: JSON.stringify(body) }),
     update: (id, body) =>
-      apiFetch(`/api/gestion/users/${id}`, {
+      apiFetch(`/gestion/users/${id}`, {
         method: "PATCH",
         body: JSON.stringify(body),
       }),
-    remove: (id) => apiFetch(`/api/gestion/users/${id}`, { method: "DELETE" }),
+    remove: (id) => apiFetch(`/gestion/users/${id}`, { method: "DELETE" }),
   },
 };
