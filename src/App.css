@@ -3655,6 +3655,96 @@ p {
   padding: 2rem clamp(1rem, 3vw, 2.5rem) 3rem;
 }
 
+.gestion-sidebar-toggle {
+  display: none;
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  z-index: 300;
+  align-items: center;
+  gap: 10px;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 14px;
+  background: rgba(19, 0, 0, 0.9);
+  color: #fff;
+  font-size: 0.94rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.18s ease;
+}
+
+.gestion-sidebar-toggle:hover {
+  background: rgba(227, 6, 19, 0.95);
+  transform: translateY(-1px);
+}
+
+.gestion-sidebar-overlay {
+  display: none;
+}
+
+.gestion-sidebar--open + .gestion-sidebar-overlay {
+  display: block;
+}
+
+@media (max-width: 1024px) {
+  .gestion-sidebar {
+    position: fixed;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    width: min(280px, 88vw);
+    height: 100vh;
+    padding: 1.5rem 1.1rem;
+    box-shadow: 16px 0 48px rgba(0, 0, 0, 0.35);
+  }
+
+  .gestion-sidebar--open {
+    transform: translateX(0);
+  }
+
+  .gestion-sidebar-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 150;
+    background: rgba(0, 0, 0, 0.42);
+    backdrop-filter: blur(1.5px);
+  }
+
+  .gestion-sidebar-toggle {
+    display: inline-flex;
+  }
+
+  .gestion-main {
+    margin-left: 0;
+    padding-top: 5.4rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .gestion-sidebar {
+    width: min(320px, 92vw);
+  }
+
+  .gestion-sidebar__brand {
+    gap: 10px;
+  }
+
+  .gestion-sidebar__logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .gestion-nav__link {
+    padding: 0.75rem 0.9rem;
+    font-size: 0.95rem;
+  }
+
+  .gestion-sidebar__footer {
+    padding-top: 0.9rem;
+  }
+}
+
 .gestion-page__header {
   display: flex;
   flex-wrap: wrap;

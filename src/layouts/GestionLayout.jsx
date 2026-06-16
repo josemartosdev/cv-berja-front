@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -8,6 +9,8 @@ import {
   ClipboardList,
   LogOut,
   ExternalLink,
+  Menu,
+  X,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { getGestionNavItems, ROLE_LABELS } from "../lib/gestionHelpers";
@@ -23,6 +26,7 @@ const ICONS = {
 };
 
 export default function GestionLayout() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -38,7 +42,18 @@ export default function GestionLayout() {
 
   return (
     <div className="gestion-shell">
-      <aside className="gestion-sidebar">
+      <button
+        type="button"
+        className="gestion-sidebar-toggle"
+        aria-label={sidebarOpen ? "Cerrar menú" : "Abrir menú"}
+        aria-expanded={sidebarOpen}
+        onClick={() => setSidebarOpen((prev) => !prev)}
+      >
+        {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
+        <span>{sidebarOpen ? "Cerrar menú" : "Menú"}</span>
+      </button>
+
+      <aside className={`gestion-sidebar${sidebarOpen ? " gestion-sidebar--open" : ""}`}>
         <div className="gestion-sidebar__brand">
           <img src={logo} alt="" className="gestion-sidebar__logo" />
           <div>
@@ -58,6 +73,7 @@ export default function GestionLayout() {
               key={to}
               to={to}
               end={end}
+              onClick={() => setSidebarOpen(false)}
               className={({ isActive }) =>
                 isActive ? "gestion-nav__link gestion-nav__link--active" : "gestion-nav__link"
               }
@@ -83,6 +99,9 @@ export default function GestionLayout() {
           </a>
         </div>
       </aside>
+
+      {sidebarOpen && <div className="gestion-sidebar-overlay" onClick={() => setSidebarOpen(false)} />}
+
       <main className="gestion-main">
         <Outlet />
       </main>
