@@ -170,6 +170,10 @@ p {
   white-space: nowrap;
 }
 
+.cabecera__nav .nav__btn--login {
+  display: none;
+}
+
 .nav__btn::after {
   content: "";
   position: absolute;
@@ -298,8 +302,8 @@ p {
     z-index: 999;
     flex-direction: column;
     align-items: stretch;
-    gap: 0;
-    padding: 12px 16px 20px;
+    gap: 10px;
+    padding: 14px 16px 22px;
     background: linear-gradient(160deg, #250004 0%, #100001 100%);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
     border-top: 1px solid rgba(227, 6, 19, 0.2);
@@ -310,13 +314,27 @@ p {
     display: flex;
   }
 
-  .nav__btn {
+  .cabecera__nav .nav__btn {
+    width: 100%;
+    justify-content: center;
     padding: 14px 16px;
     font-size: 1rem;
     border-radius: 10px;
   }
 
-  .nav__btn::after {
+  .cabecera__nav .nav__btn--login {
+    display: inline-flex;
+  }
+
+  .cabecera__nav .nav__btn::after {
+    display: none;
+  }
+
+  .cabecera__actions {
+    gap: 8px;
+  }
+
+  .cabecera__actions .cabecera__cta {
     display: none;
   }
 }
@@ -1666,16 +1684,88 @@ p {
 
   .patro-carousel__slide {
     grid-template-columns: 1fr;
-    grid-template-rows: 42vh auto;
+    grid-template-rows: min(42vh, 420px) auto;
   }
 
   .patro-carousel__media-shade {
-    background: linear-gradient(180deg, transparent 50%, rgba(10, 10, 10, 0.9) 100%);
+    background: linear-gradient(180deg, transparent 40%, rgba(10, 10, 10, 0.9) 100%);
   }
 
   .patro-carousel__content {
     border-left: none;
     border-top: 1px solid rgba(227, 6, 19, 0.25);
+    padding: clamp(24px, 4vw, 42px);
+  }
+
+  .patro-carousel__desc {
+    max-width: none;
+  }
+
+  .patro-carousel__meta {
+    gap: 12px 16px;
+  }
+
+  .patro-carousel__dots {
+    position: static;
+    transform: none;
+    margin: 20px auto 0;
+  }
+
+  .patro-carousel__thumbs {
+    position: static;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(0, 0, 0, 0.78);
+    padding: 8px 0;
+    margin-top: 8px;
+  }
+
+  .patro-carousel__thumb {
+    min-width: 140px;
+    padding: 14px 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .patro-carousel {
+    min-height: auto;
+  }
+
+  .patro-carousel__media {
+    min-height: 260px;
+  }
+
+  .patro-carousel__content {
+    padding: 22px 18px 26px;
+  }
+
+  .patro-carousel__count {
+    font-size: 0.75rem;
+  }
+
+  .patro-carousel__content h2 {
+    font-size: clamp(1.6rem, 6vw, 2.2rem);
+  }
+
+  .patro-carousel__tagline {
+    font-size: 1rem;
+  }
+
+  .patro-carousel__desc {
+    font-size: 0.96rem;
+  }
+
+  .patro-carousel__nav {
+    width: 42px;
+    height: 42px;
+  }
+
+  .patro-carousel__thumb {
+    min-width: 120px;
+    padding: 12px 14px;
+    font-size: 0.86rem;
   }
 }
 
@@ -1684,9 +1774,18 @@ p {
     min-height: auto;
   }
 
-  .patro-carousel__nav {
-    width: 44px;
-    height: 44px;
+  .patro-carousel__thumbs {
+    padding: 8px 0;
+  }
+
+  .patro-carousel__thumb {
+    min-width: 110px;
+    font-size: 0.82rem;
+  }
+
+  .patro-carousel__dots {
+    gap: 8px;
+    padding: 8px 12px;
   }
 
   .patro-cta__actions {

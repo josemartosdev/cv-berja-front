@@ -41,6 +41,13 @@ function Cabecera() {
               {label}
             </NavLink>
           ))}
+          <NavLink
+            to="/login"
+            onClick={() => setOpen(false)}
+            className={({ isActive }) => (isActive ? "nav__btn nav__btn--active nav__btn--login" : "nav__btn nav__btn--login")}
+          >
+            Iniciar sesión
+          </NavLink>
         </nav>
 
         <div className="cabecera__actions">

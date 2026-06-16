@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Propuesta Comercial y Guía de Usuario — CV Berja</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display&display=swap");
+
+    :root {
+      --red: #c41e3a;
+      --red-dark: #9a1830;
+      --ink: #1a1a1f;
+      --muted: #5c5c6a;
+      --line: #e8e8ee;
+      --bg: #fafafa;
+      --white: #ffffff;
+      --accent-soft: #fff4f6;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    @page {
+      size: A4;
+      margin: 18mm 16mm;
+    }
+
+    body {
+      font-family: "DM Sans", system-ui, sans-serif;
+      color: var(--ink);
+      background: #ececef;
+      line-height: 1.55;
+      font-size: 10.5pt;
+    }
+
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 0 auto 12px;
+      background: var(--white);
+      box-shadow: 0 4px 24px rgba(0,0,0,.08);
+      overflow: hidden;
+    }
+
+    @media print {
+      body { background: white; }
+      .page { box-shadow: none; margin: 0; page-break-after: always; }
+      .page:last-child { page-break-after: auto; }
+      .no-print { display: none !important; }
+      .table-wrap,
+      .pricing-table,
+      .pricing-table thead,
+      .pricing-table tbody,
+      .pricing-table tr,
+      .pricing-table th,
+      .pricing-table td {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+      h2, h3 { page-break-after: avoid; break-after: avoid; }
+      .includes-box, .card, .pricing-hero, .cta-box { page-break-inside: avoid; break-inside: avoid; }
+    }
+
+    .table-wrap {
+      page-break-inside: avoid;
+      break-inside: avoid;
+      margin: 14px 0;
+      overflow: visible;
+    }
+
+    .pricing-table { margin: 0; }
+
+    .func-table td:first-child {
+      font-weight: 600;
+      width: 22%;
+      white-space: nowrap;
+    }
+
+    .func-table td:nth-child(2) { width: 48%; }
+    .func-table td:nth-child(3) { width: 30%; font-size: 8.5pt; color: var(--muted); }
+
+    .func-table--wide td:first-child { width: 18%; }
+    .func-table--wide td:nth-child(2) { width: 52%; }
+    .func-table--wide td:nth-child(3) { width: 30%; }
+
+    .section-tag {
+      display: inline-block;
+      font-size: 7.5pt;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--red);
+      border: 1px solid #f5c6cf;
+      background: var(--accent-soft);
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 6px;
+    }
+
+    /* ── Cover ── */
+    .cover {
+      min-height: 297mm;
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(145deg, var(--red-dark) 0%, var(--red) 45%, #e8354f 100%);
+      color: white;
+      position: relative;
+    }
+
+    .cover__top {
+      padding: 22mm 18mm 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .cover__badge {
+      font-size: 8pt;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      opacity: .85;
+      border: 1px solid rgba(255,255,255,.35);
+      padding: 6px 12px;
+      border-radius: 999px;
+    }
+
+    .cover__date {
+      font-size: 9pt;
+      opacity: .8;
+    }
+
+    .cover__body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 18mm;
+    }
+
+    .cover__eyebrow {
+      font-size: 10pt;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      opacity: .75;
+      margin-bottom: 14px;
+    }
+
+    .cover__title {
+      font-family: "DM Serif Display", Georgia, serif;
+      font-size: 38pt;
+      line-height: 1.08;
+      font-weight: 400;
+      max-width: 14ch;
+      margin-bottom: 20px;
+    }
+
+    .cover__subtitle {
+      font-size: 13pt;
+      max-width: 52ch;
+      opacity: .9;
+      line-height: 1.6;
+    }
+
+    .cover__footer {
+      padding: 18mm;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      border-top: 1px solid rgba(255,255,255,.2);
+      background: rgba(0,0,0,.12);
+    }
+
+    .cover__footer strong {
+      display: block;
+      font-size: 9pt;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      opacity: .7;
+      margin-bottom: 4px;
+    }
+
+    /* ── Inner pages ── */
+    .inner { padding: 16mm 18mm 18mm; }
+
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 10px;
+      margin-bottom: 22px;
+      border-bottom: 2px solid var(--red);
+    }
+
+    .page-header__brand {
+      font-weight: 700;
+      font-size: 11pt;
+      color: var(--red);
+    }
+
+    .page-header__section {
+      font-size: 8.5pt;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .12em;
+    }
+
+    h2 {
+      font-family: "DM Serif Display", Georgia, serif;
+      font-size: 20pt;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+
+    h3 {
+      font-size: 11pt;
+      font-weight: 700;
+      color: var(--red-dark);
+      margin: 18px 0 8px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    p { margin-bottom: 10px; color: var(--ink); }
+    .lead { font-size: 11.5pt; color: var(--muted); margin-bottom: 18px; }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 14px 0;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 14px 16px;
+      background: var(--bg);
+    }
+
+    .card--highlight {
+      background: var(--accent-soft);
+      border-color: #f5c6cf;
+    }
+
+    .card h4 {
+      font-size: 10pt;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--red-dark);
+    }
+
+    .card p, .card li { font-size: 9.5pt; color: var(--muted); margin: 0; }
+
+    ul { padding-left: 18px; margin-bottom: 10px; }
+    li { margin-bottom: 4px; font-size: 9.5pt; }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 12px 0;
+    }
+
+    .feature {
+      border-left: 3px solid var(--red);
+      padding: 8px 12px;
+      background: var(--bg);
+      border-radius: 0 8px 8px 0;
+    }
+
+    .feature strong {
+      display: block;
+      font-size: 9.5pt;
+      margin-bottom: 3px;
+    }
+
+    .feature span {
+      font-size: 8.5pt;
+      color: var(--muted);
+    }
+
+    /* ── Pricing ── */
+    .pricing-hero {
+      background: linear-gradient(135deg, var(--red-dark), var(--red));
+      color: white;
+      border-radius: 14px;
+      padding: 22px 24px;
+      margin: 16px 0 20px;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .pricing-hero__label {
+      font-size: 9pt;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      opacity: .8;
+      margin-bottom: 6px;
+    }
+
+    .pricing-hero__price {
+      font-family: "DM Serif Display", Georgia, serif;
+      font-size: 42pt;
+      line-height: 1;
+    }
+
+    .pricing-hero__note {
+      font-size: 9.5pt;
+      opacity: .85;
+      line-height: 1.5;
+    }
+
+    .pricing-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      font-size: 9.5pt;
+    }
+
+    .pricing-table th {
+      background: var(--ink);
+      color: white;
+      text-align: left;
+      padding: 10px 14px;
+      font-weight: 600;
+      font-size: 8.5pt;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .pricing-table td {
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    .pricing-table tr:nth-child(even) td { background: var(--bg); }
+
+    .price-tag {
+      font-weight: 700;
+      color: var(--red);
+      white-space: nowrap;
+      font-size: 11pt;
+    }
+
+    .total-row td {
+      background: var(--accent-soft) !important;
+      font-weight: 700;
+      border-top: 2px solid var(--red);
+      font-size: 10.5pt;
+    }
+
+    .includes-box {
+      border: 2px solid var(--red);
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-top: 16px;
+    }
+
+    .includes-box h3 { margin-top: 0; color: var(--red); }
+
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0;
+    }
+
+    .tech-pill {
+      background: var(--ink);
+      color: white;
+      font-size: 8pt;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-weight: 500;
+    }
+
+    .timeline {
+      border-left: 2px solid var(--line);
+      margin: 12px 0 12px 8px;
+      padding-left: 18px;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 14px;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -25px;
+      top: 5px;
+      width: 10px;
+      height: 10px;
+      background: var(--red);
+      border-radius: 50%;
+      border: 2px solid white;
+      box-shadow: 0 0 0 2px var(--red);
+    }
+
+    .timeline-item strong { font-size: 9.5pt; display: block; }
+    .timeline-item span { font-size: 8.5pt; color: var(--muted); }
+
+    .cta-box {
+      margin-top: 20px;
+      padding: 18px;
+      background: var(--ink);
+      color: white;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .cta-box p { color: rgba(255,255,255,.85); margin: 0; font-size: 9.5pt; }
+    .cta-box strong { color: white; font-size: 11pt; display: block; margin-bottom: 6px; }
+
+    .footer-note {
+      margin-top: 24px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+      font-size: 8pt;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .print-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--red);
+      color: white;
+      border: none;
+      padding: 12px 22px;
+      border-radius: 999px;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 10pt;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(196,30,58,.4);
+      z-index: 100;
+    }
+
+    .print-btn:hover { background: var(--red-dark); }
+
+    /* ── Guía de usuario ── */
+    .guide-part {
+      display: inline-block;
+      background: var(--red);
+      color: white;
+      font-size: 7.5pt;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+    }
+
+    .steps { counter-reset: step; list-style: none; padding: 0; margin: 10px 0; }
+    .steps li {
+      counter-increment: step;
+      position: relative;
+      padding: 8px 0 8px 36px;
+      border-bottom: 1px solid var(--line);
+      font-size: 9.5pt;
+    }
+    .steps li:last-child { border-bottom: none; }
+    .steps li::before {
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 22px;
+      height: 22px;
+      background: var(--red);
+      color: white;
+      border-radius: 50%;
+      font-size: 8pt;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .role-table td:first-child { font-weight: 600; white-space: nowrap; }
+
+    .tip {
+      background: #f0f7ff;
+      border-left: 3px solid #3b82f6;
+      padding: 10px 14px;
+      border-radius: 0 8px 8px 0;
+      font-size: 9pt;
+      color: #1e3a5f;
+      margin: 10px 0;
+    }
+
+    .warn {
+      background: #fff8e6;
+      border-left: 3px solid #f59e0b;
+      padding: 10px 14px;
+      border-radius: 0 8px 8px 0;
+      font-size: 9pt;
+      color: #78350f;
+      margin: 10px 0;
+    }
+
+    .route-list {
+      font-family: "Consolas", "Courier New", monospace;
+      font-size: 8.5pt;
+      background: var(--ink);
+      color: #a3e635;
+      padding: 10px 14px;
+      border-radius: 8px;
+      margin: 8px 0;
+    }
+
+    .route-list span { color: #94a3b8; }
+  </style>
+</head>
+<body>
+
+<button class="print-btn no-print" onclick="window.print()">Guardar como PDF</button>
+
+<!-- ═══════════════ PORTADA ═══════════════ -->
+<div class="page cover">
+  <div class="cover__top">
+    <span class="cover__badge">Propuesta comercial</span>
+    <span class="cover__date">Junio 2026</span>
+  </div>
+  <div class="cover__body">
+    <p class="cover__eyebrow">Club Voleibol Berja</p>
+    <h1 class="cover__title">Plataforma digital integral</h1>
+    <p class="cover__subtitle">
+      Web pública de alto impacto + panel de gestión interna para jugadores, entrenadores y administración.
+      Incluye propuesta comercial, guía de usuario completa y documentación técnica.
+    </p>
+  </div>
+  <div class="cover__footer">
+    <div>
+      <strong>Producto</strong>
+      Sistema web completo subido a hosting con URL propia del club
+    </div>
+    <div>
+      <strong>Inversión inicial</strong>
+      2.500 € + 100 €/mes mantenimiento + módulos desde 100 €
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ RESUMEN EJECUTIVO ═══════════════ -->
+<div class="page inner">
+  <div class="page-header">
+    <span class="page-header__brand">CV Berja Digital</span>
+    <span class="page-header__section">Resumen ejecutivo</span>
+  </div>
+
+  <h2>¿Qué se entrega?</h2>
+  <p class="lead">
+    Una plataforma digital profesional diseñada específicamente para el Club Voleibol Berja:
+    presencia online de primer nivel y herramientas internas que centralizan la gestión del club
+    en un único sistema seguro y accesible desde cualquier dispositivo.
+  </p>
+
+  <div class="grid-2">
+    <div class="card card--highlight">
+      <h4>Web pública</h4>
+      <p>La cara visible del club: imagen moderna, información actualizada y engagement con aficionados, familias y patrocinadores.</p>
+    </div>
+    <div class="card card--highlight">
+      <h4>Panel de gestión</h4>
+      <p>Herramienta interna con roles diferenciados para administradores, entrenadores y jugadores. Todo conectado a una API robusta.</p>
+    </div>
+  </div>
+
+  <h3>Problema que resuelve</h3>
+  <ul>
+    <li>Información dispersa en WhatsApp, hojas de cálculo y redes sociales</li>
+    <li>Dificultad para dar visibilidad al club y a sus patrocinadores</li>
+    <li>Gestión manual de jugadores, cuotas y equipos sin trazabilidad</li>
+    <li>Falta de un canal profesional para resultados, calendario y contenido en directo</li>
+  </ul>
+
+  <h3>Propuesta de valor</h3>
+  <div class="feature-grid">
+    <div class="feature"><strong>Imagen profesional</strong><span>Web responsive con identidad visual del club</span></div>
+    <div class="feature"><strong>Gestión centralizada</strong><span>Jugadores, equipos, entrenadores y cuotas en un solo lugar</span></div>
+    <div class="feature"><strong>Acceso por roles</strong><span>Cada perfil ve solo lo que necesita</span></div>
+    <div class="feature"><strong>Escalable</strong><span>Arquitectura moderna preparada para crecer</span></div>
+    <div class="feature"><strong>Hosting propio</strong><span>Subida a servidor con dominio y URL del club (SSL incluido)</span></div>
+    <div class="feature"><strong>Redes y directo</strong><span>Integración con Instagram, TikTok, X y emisiones en vivo de partidos</span></div>
+    <div class="feature"><strong>Base de datos</strong><span>MySQL con todos los datos del club centralizados y respaldados</span></div>
+    <div class="feature"><strong>Módulos a medida</strong><span>Nuevas funcionalidades incorporables según necesidad</span></div>
+  </div>
+</div>
+
+<!-- ═══════════════ FUNCIONALIDADES — WEB PÚBLICA I ═══════════════ -->
+<div class="page inner">
+  <div class="page-header">
+    <span class="page-header__brand">CV Berja Digital</span>
+    <span class="page-header__section">Desglose de funcionalidades</span>
+  </div>
+
+  <h2>Web pública — Desglose completo</h2>
+  <p class="lead">Cada sección de la web está diseñada como un módulo independiente, optimizado para móvil, tablet y escritorio, con identidad visual del club.</p>
+
+  <span class="section-tag">Módulo 01</span>
+  <h3>Página de inicio (/)</h3>
+  <div class="table-wrap">
+    <table class="pricing-table func-table func-table--wide">
+      <thead><tr><th>Función</th><th>Detalle</th><th>Beneficio</th></tr></thead>
+      <tbody>
+        <tr><td>Hero principal</td><td>Bloque visual de impacto con temporada activa, titular destacado y llamadas a la acción (Ver equipos, Calendario)</td><td>Primera impresión profesional del club</td></tr>
+        <tr><td>Estadísticas del club</td><td>Contadores de fundación, campeonatos, jugadores históricos y equipos activos</td><td>Transmite solidez y trayectoria</td></tr>
+        <tr><td>Carrusel de resultados</td><td>Últimos marcadores con navegación automática y manual</td><td>Afición informada al instante</td></tr>
+        <tr><td>Módulo de noticias</td><td>Noticia destacada + grid de actualidad con imagen, categoría y fecha relativa</td><td>Canal de comunicación oficial</td></tr>
+        <tr><td>Redes sociales</td><td>Tarjetas de Instagram, TikTok y X/Twitter con preview de publicaciones, seguidores y enlace directo</td><td>Puente web ↔ redes del club</td></tr>
+        <tr><td>Carrusel patrocinadores</td><td>Logos de sponsors en rotación continua en portada</td><td>Visibilidad comercial para patrocinadores</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <span class="section-tag">Módulo 02</span>
+  <h3>Historia (/historia)</h3>
+  <div class="table-wrap">
+    <table class="pricing-table func-table func-table--wide">
+      <thead><tr><th>Función</th><th>Detalle</th><th>Beneficio</th></tr></thead>
+      <tbody>
+        <tr><td>Hero histórico</td><td>Sección de apertura con narrativa visual del origen del club</td><td>Identidad y orgullo berjeño</td></tr>
+        <tr><td>Cronología</td><td>Línea temporal de hitos deportivos y sociales del club</td><td>Memoria institucional</td></tr>
+        <tr><td>Palmarés</td><td>Listado de títulos, trofeos y reconocimientos conseguidos</td><td>Credibilidad deportiva</td></tr>
+        <tr><td>Logros destacados</td><td>Bloques visuales de momentos clave de la historia</td><td>Storytelling emocional</td></tr>
+        <tr><td>Objetivos actuales</td><td>8 objetivos institucionales: escolarización, convivencia, espectáculo, promoción de Berja…</td><td>Transparencia de misión</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════ FUNCIONALIDADES — WEB PÚBLICA II ═══════════════ -->
+<div class="page inner">
+  <div class="page-header">
+    <span class="page-header__brand">CV Berja Digital</span>
+    <span class="page-header__section">Desglose · Competición</span>
+  </div>
+
+  <span class="section-tag">Módulo 03</span>
+  <h3>Equipos (/equipos)</h3>
+  <div class="table-wrap">
+    <table class="pricing-table func-table func-table--wide">
+      <thead><tr><th>Función</th><th>Detalle</th><th>Beneficio</th></tr></thead>
+      <tbody>
+        <tr><td>Categorías</td><td>Organización por Senior, Juvenil, Cadete, etc. con diseño por tarjetas</td><td>Navegación clara por edades</td></tr>
+        <tr><td>Plantilla destacada</td><td>Fichas visuales de jugadores con foto, dorsal y posición</td><td>Reconocimiento del equipo</td></tr>
+        <tr><td>Fotos de equipo</td><td>Imágenes de plantilla completa por categoría</td><td>Material para familias y prensa</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <span class="section-tag">Módulo 04</span>
+  <h3>Partidos y resultados (/partidos · /resultados)</h3>
+  <div class="table-wrap">
+    <table class="pricing-table func-table func-table--wide">
+      <thead><tr><th>Función</th><th>Detalle</th><th>Beneficio</th></tr></thead>
+      <tbody>
+        <tr><td>Cartelera de partidos</td><td>Listado visual de encuentros con rival, fecha, hora y sede</td><td>Planificación para afición</td></tr>
+        <tr><td>Próximos encuentros</td><td>Bloque destacado con los siguientes partidos a disputar</td><td>Anticipación y asistencia al pabellón</td></tr>
+        <tr><td>Clasificación</td><td>Tabla de posiciones de liga con puntos, victorias y derrotas</td><td>Seguimiento de la temporada</td></tr>
+        <tr><td>Historial de partidos</td><td>Registro de encuentros disputados con marcador final</td><td>Archivo deportivo consultable</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <span class="section-tag">Módulo 05</span>
+  <h3>Calendario (/calendario)</h3>
+  <div class="table-wrap">
+    <table class="pricing-table func-table func-table--wide">
+      <thead><tr><th>Función</th><th>Detalle</th><th>Beneficio</th></tr></thead>
+      <tbody>
+        <tr><td>Agenda mensual</td><td>Vista de calendario con partidos, entrenamientos y eventos del mes</td><td>Visión global de la actividad</td></tr>
+        <tr><td>Eventos especiales</td><td>Torneos, clínicas, actividades escolares y eventos sociales del club</td><td>Difusión de toda la actividad</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <span class="section-tag">Módulo 06</span>
+  <h3>Patrocinadores (/patrocinadores)</h3>
+  <div class="table-wrap">
+    <table class="pricing-table func-table func-table--wide">
+      <thead><tr><th>Función</th><th>Detalle</th><th>Beneficio</th></tr></thead>
+      <tbody>
+        <tr><td>Hero patrocinadores</td><td>Sección de presentación para atraer nuevos sponsors</td><td>Monetización y partnerships</td></tr>
+        <tr><td>Carrusel de logos</td><td>Rotación de marcas colaboradoras (Decathlon, farmacias, gimnasios…)</td><td>Retorno de visibilidad al sponsor</td></tr>
+        <tr><td>CTA comercial</td><td>Formulario / llamada a la acción «¿Quieres patrocinar?»</td><td>Captación de nuevos ingresos</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════ FUNCIONALIDADES — REDES Y DIRECTO ═══════════════ -->
+<div class="page inner">
+  <div class="page-header">
+    <span class="page-header__brand">CV Berja Digital</span>
+    <span class="page-header__section">Desglose · Redes y directo</span>
+  </div>
+
+  <span class="section-tag">Módulo 07</span>
+  <h3>Integración con redes sociales</h3>
+  <p>La web no compite con las redes: las conecta. El módulo de redes sociales en la portada centraliza la presencia digital del club.</p>
+  <div class="table-wrap">
+    <table class="pricing-table func-table func-table--wide">
+      <thead><tr><th>Red</th><th>Integración</th><th>Qué aporta</th></tr></thead>
+      <tbody>
+        <tr><td>Instagram</td><td>Tarjeta con @voleyberja, preview de publicación, contador de seguidores y enlace «Ver publicación»</td><td>Contenido visual: entrenamientos, partidos, vida de club</td></tr>
+        <tr><td>TikTok</td><td>Tarjeta con @voleyberja, vídeos destacados y métricas de audiencia</td><td>Alcance juvenil y contenido dinámico</td></tr>
+        <tr><td>X / Twitter</td><td>Tarjeta con @cvberja, tweets recientes y resultados en tiempo real</td><td>Comunicación inmediata de marcadores y noticias</td></tr>
+        <tr><td>Diseño unificado</td><td>Cada red con su identidad de color, icono y estilo de tarjeta dentro del diseño del club</td><td>Coherencia visual sin salir de la web</td></tr>
+        <tr><td>Enlaces externos</td><td>Click en cada tarjeta abre el perfil real de la red social del club</td><td>Tráfico cruzado web → redes → web</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <span class="section-tag">Módulo 08</span>
+  <h3>Emisiones en directo de partidos (/en-directo)</h3>
+  <p>Sistema de retransmisión integrado en la web para que la afición siga los partidos sin salir del sitio del club.</p>
+  <div class="table-wrap">
+    <table class="pricing-table func-table func-table--wide">
+      <thead><tr><th>Función</th><th>Detalle</th><th>Beneficio</th></tr></thead>
+      <tbody>
+        <tr><td>Reproductor embebido</td><td>Player integrado vía YouTube Live conectado al canal oficial del club (@cvberja)</td><td>Directo dentro de la web del club</td></tr>
+        <tr><td>Detección automática</td><td>Si hay emisión activa en el canal, el reproductor la muestra; si no, aviso o último vídeo</td><td>Sin intervención manual en cada partido</td></tr>
+        <tr><td>Pantalla completa</td><td>Modo fullscreen, picture-in-picture y controles nativos de YouTube</td><td>Experiencia TV en móvil y tablet</td></tr>
+        <tr><td>Agenda de directos</td><td>Listado de próximas emisiones: fecha, rival, categoría y estado (programado / pendiente)</td><td>La afición sabe cuándo sintonizar</td></tr>
+        <tr><td>Enlace al canal</td><td>Botón «Abrir canal en YouTube» para suscribirse y activar notificaciones</td><td>Crecimiento del canal oficial</td></tr>
+        <tr><td>Multi-categoría</td><td>Directos de Senior, Juvenil y cantera con etiquetado por equipo</td><td>Toda la estructura del club cubierta</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════ FUNCIONALIDADES — PANEL GESTIÓN ═══════════════ -->
+<div class="page inner">
+  <div class="page-header">
+    <span class="page-header__brand">CV Berja Digital</span>
+    <span class="page-header__section">Desglose · Panel gestión</span>
+  </div>
+
+  <h2>Panel de gestión — Desglose completo</h2>
+  <p class="lead">Backoffice profesional con autenticación JWT, 5 roles de usuario, permisos granulares y dashboards con gráficos analíticos.</p>
+
+  <div class="table-wrap">
+    <table class="pricing-table func-table func-table--wide">
+      <thead><tr><th>Módulo</th><th>Funcionalidades incluidas</th><th>Roles</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Dashboard</td>
+          <td>KPIs de equipos activos, jugadores activos, pagos pendientes, ingresos acumulados; gráficos de barras (jugadores/equipo), donut (estado pagos), área (ingresos/mes); accesos rápidos</td>
+          <td>Admin, Entrenador, Lectura</td>
+        </tr>
+        <tr>
+          <td>Jugadores</td>
+          <td>CRUD completo, ficha con DNI, fecha nacimiento, contacto, notas; subida de foto; historial médico; filtro por equipo; credenciales de acceso al portal; sugerencia automática de username</td>
+          <td>Admin, Entrenador</td>
+        </tr>
+        <tr>
+          <td>Equipos</td>
+          <td>Alta/edición/baja de equipos; categoría, temporada, entrenador asignado; foto de equipo; estado activo/inactivo</td>
+          <td>Admin, Entrenador (lectura)</td>
+        </tr>
+        <tr>
+          <td>Entrenadores</td>
+          <td>Perfiles del cuerpo técnico; asignación a equipos; gestión de documentos tácticos (crear, editar, eliminar); credenciales de acceso</td>
+          <td>Admin</td>
+        </tr>
+        <tr>
+          <td>Contabilidad</td>
+          <td>Registro de pagos (importe, fecha, método, estado); planes de cuota por temporada; estados pagado/pendiente/devuelto; gráficos por mes, método y estado; filtros y búsqueda</td>
+          <td>Admin</td>
+        </tr>
+        <tr>
+          <td>Usuarios</td>
+          <td>Crear, editar, activar/desactivar y eliminar cuentas; asignación de roles; control de acceso al sistema</td>
+          <td>Super Admin</td>
+        </tr>
+        <tr>
+          <td>Portal jugador</td>
+          <td>Mi ficha: datos personales, equipo, entrenador, tutores, registro médico, estadísticas y cambio de contraseña</td>
+          <td>Jugador</td>
+        </tr>
+        <tr>
+          <td>Portal entrenador</td>
+          <td>Mi perfil, mis equipos, mis jugadores, resumen de plantilla y gestión de tácticas propias</td>
+          <td>Entrenador</td>
+        </tr>
+        <tr>
+          <td>Autenticación</td>
+          <td>Login seguro, sesión persistente, redirección por rol, rutas protegidas, cierre de sesión</td>
+          <td>Todos</td>
+        </tr>
+        <tr>
+          <td>Subida archivos</td>
+          <td>Upload de fotos de jugadores, equipos y entrenadores al servidor con URL pública</td>
+          <td>Admin, Entrenador</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════ BASE DE DATOS ═══════════════ -->
+<div class="page inner">
+  <div class="page-header">
+    <span class="page-header__brand">CV Berja Digital</span>
+    <span class="page-header__section">Base de datos</span>
+  </div>
+
+  <h2>Base de datos MySQL</h2>
+  <p class="lead">Todos los datos del club viven en una base de datos relacional MySQL alojada en el servidor, conectada a la API backend. Nada queda en hojas de cálculo sueltas.</p>
+
+  <div class="table-wrap">
+    <table class="pricing-table func-table func-table--wide">
+      <thead><tr><th>Entidad</th><th>Datos almacenados</th><th>Uso en el sistema</th></tr></thead>
+      <tbody>
+        <tr><td>Usuarios</td><td>Username, email, contraseña cifrada, nombre, rol, estado activo</td><td>Login y control de acceso al panel</td></tr>
+        <tr><td>Jugadores</td><td>Nombre, apellidos, DNI, fecha nacimiento, email, teléfono, foto, equipo, notas, estado</td><td>Fichas, plantillas web y portal jugador</td></tr>
+        <tr><td>Equipos</td><td>Nombre, categoría, temporada, entrenador, foto, estado activo</td><td>Web pública y panel de gestión</td></tr>
+        <tr><td>Entrenadores</td><td>Perfil, contacto, foto, equipos asignados, credenciales</td><td>Panel entrenador y web</td></tr>
+        <tr><td>Tácticas</td><td>Documentos tácticos vinculados a cada entrenador</td><td>Módulo de entrenadores</td></tr>
+        <tr><td>Pagos</td><td>Jugador, importe, fecha, método, estado, plan de cuota, notas</td><td>Contabilidad y dashboard financiero</td></tr>
+        <tr><td>Planes de cuota</td><td>Nombre, importe, temporada</td><td>Automatización de tarifas</td></tr>
+        <tr><td>Registros médicos</td><td>Incidencias, alergias, revisiones por jugador</td><td>Ficha médica y portal jugador</td></tr>
+        <tr><td>Archivos media</td><td>Rutas de fotos y documentos subidos</td><td>Imágenes en web y panel</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Gestión y seguridad de datos</h3>
+  <div class="grid-2">
+    <div class="card">
+      <h4>En producción</h4>
+      <ul>
+        <li>Base de datos MySQL en servidor de hosting</li>
+        <li>Conexión cifrada entre API y base de datos</li>
+        <li>Contraseñas hasheadas (nunca en texto plano)</li>
+        <li>Relaciones entre tablas con integridad referencial</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Mantenimiento (100 €/mes)</h4>
+      <ul>
+        <li>Copias de seguridad periódicas de la base de datos</li>
+        <li>Monitorización de espacio y rendimiento</li>
+        <li>Restauración ante incidencias</li>
+        <li>Acceso administrativo vía herramientas como DBeaver</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ TECNOLOGÍA ═══════════════ -->
+<div class="page inner">
+  <div class="page-header">
+    <span class="page-header__brand">CV Berja Digital</span>
+    <span class="page-header__section">Arquitectura técnica</span>
+  </div>
+
+  <h2>Stack tecnológico</h2>
+  <p class="lead">Tecnologías actuales, mantenibles y con amplio soporte en la industria.</p>
+
+  <div class="tech-stack">
+    <span class="tech-pill">React 19</span>
+    <span class="tech-pill">Vite 8</span>
+    <span class="tech-pill">Tailwind CSS</span>
+    <span class="tech-pill">Symfony (API REST)</span>
+    <span class="tech-pill">MySQL</span>
+    <span class="tech-pill">Hosting + dominio propio</span>
+    <span class="tech-pill">SSL / HTTPS</span>
+    <span class="tech-pill">YouTube Live API</span>
+    <span class="tech-pill">Redes sociales</span>
+    <span class="tech-pill">JWT / Auth</span>
+    <span class="tech-pill">Subida de archivos</span>
+  </div>
+
+  <h3>Hosting y URL del club</h3>
+  <p>El sistema se sube íntegramente a un servidor de hosting profesional con la URL y dominio del club (ej. <strong>www.cvberja.com</strong> o el dominio que elija la junta directiva).</p>
+  <div class="grid-2">
+    <div class="card card--highlight">
+      <h4>Qué incluye el despliegue</h4>
+      <ul>
+        <li>Subida del frontend (web pública + panel) al hosting</li>
+        <li>Subida del backend (API Symfony) al servidor</li>
+        <li>Configuración de base de datos MySQL en el hosting</li>
+        <li>Apuntado del dominio y subdominios necesarios</li>
+        <li>Certificado SSL (candado HTTPS) activo</li>
+        <li>Variables de entorno de producción configuradas</li>
+      </ul>
+    </div>
+    <div class="card card--highlight">
+      <h4>URL y accesos</h4>
+      <ul>
+        <li><strong>Web pública:</strong> https://tudominio.com</li>
+        <li><strong>Panel gestión:</strong> https://tudominio.com/login</li>
+        <li><strong>API backend:</strong> https://api.tudominio.com (o ruta integrada)</li>
+        <li>Enlaces de redes y YouTube configurados al canal del club</li>
+        <li>Email y DNS gestionados en el plan de mantenimiento</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Arquitectura del sistema</h3>
+  <div class="grid-2">
+    <div class="card">
+      <h4>Frontend (web)</h4>
+      <ul>
+        <li>SPA React con rutas públicas y panel /gestion</li>
+        <li>Diseño responsive para móvil, tablet y escritorio</li>
+        <li>Integración con YouTube Live para directos de partidos</li>
+        <li>Módulo de redes sociales (Instagram, TikTok, X)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Backend + Base de datos</h4>
+      <ul>
+        <li>API REST con Symfony PHP en el servidor</li>
+        <li>Base de datos MySQL con todas las entidades del club</li>
+        <li>Endpoints de gestión, portal, auth y subida de archivos</li>
+        <li>CORS y seguridad configurados para el dominio del club</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Seguridad y roles</h3>
+  <ul>
+    <li><strong>Super Admin</strong> — Control total del sistema y usuarios</li>
+    <li><strong>Administrador</strong> — Gestión completa excepto usuarios globales</li>
+    <li><strong>Entrenador</strong> — Acceso a sus equipos, jugadores y perfil</li>
+    <li><strong>Lectura</strong> — Consulta sin permisos de edición</li>
+    <li><strong>Jugador</strong> — Portal personal con su ficha y datos médicos</li>
+  </ul>
+
+  <h3>Proceso de entrega</h3>
+  <div class="timeline">
+    <div class="timeline-item">
+      <strong>1. Entrega del producto base</strong>
+      <span>Código fuente, despliegue en producción y documentación de conexión</span>
+    </div>
+    <div class="timeline-item">
+      <strong>2. Formación básica</strong>
+      <span>Introducción al panel de gestión para el equipo del club</span>
+    </div>
+    <div class="timeline-item">
+      <strong>3. Mantenimiento activo</strong>
+      <span>Monitorización del servidor, corrección de errores y actualizaciones de seguridad</span>
+    </div>
+    <div class="timeline-item">
+      <strong>4. Evolución</strong>
+      <span>Nuevos módulos bajo demanda (tienda, notificaciones, app móvil, etc.)</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ GUÍA DE USUARIO — INTRO ═══════════════ -->
+<div class="page inner">
+  <div class="page-header">
+    <span class="page-header__brand">CV Berja Digital</span>
+    <span class="page-header__section">Guía de usuario</span>
+  </div>
+
+  <span class="guide-part">Parte I — Web pública</span>
+  <h2>Guía de usuario</h2>
+  <p class="lead">
+    Manual de uso para el personal del club, entrenadores y jugadores. Explica cómo navegar la web,
+    acceder al panel y utilizar cada módulo según el rol asignado.
+  </p>
+
+  <h3>Navegación de la web pública</h3>
+  <p>La web está accesible desde cualquier navegador (Chrome, Firefox, Safari, Edge) en móvil, tablet u ordenador. El menú principal incluye:</p>
+
+  <div class="table-wrap">
+    <table class="pricing-table role-table">
+      <thead>
+        <tr><th>Sección</th><th>Ruta</th><th>Contenido</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Inicio</td><td>/</td><td>Hero, estadísticas, noticias, redes sociales, resultados y patrocinadores</td></tr>
+        <tr><td>Equipos</td><td>/equipos</td><td>Categorías y plantillas destacadas de cada equipo</td></tr>
+        <tr><td>Partidos</td><td>/partidos</td><td>Cartelera y próximos encuentros</td></tr>
+        <tr><td>En Directo</td><td>/en-directo</td><td>Reproductor YouTube Live + agenda de próximos directos</td></tr>
+        <tr><td>Historia</td><td>/historia</td><td>Cronología, palmarés, logros y objetivos del club</td></tr>
+        <tr><td>Patrocinadores</td><td>/patrocinadores</td><td>Logos, carrusel y llamada a la acción para nuevos sponsors</td></tr>
+        <tr><td>Resultados</td><td>/resultados</td><td>Clasificación e historial de partidos</td></tr>
+        <tr><td>Calendario</td><td>/calendario</td><td>Agenda mensual y eventos especiales</td></tr>
+        <tr><td>Acceso panel</td><td>/login</td><td>Entrada al área privada de gestión</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tip">
+    <strong>Consejo:</strong> En móvil, pulsa el icono de menú (☰) en la esquina superior derecha para desplegar la navegación.
+  </div>
+
+  <h3>Acceso al panel de gestión</h3>
+  <ol class="steps">
+    <li>Desde la web pública, pulsa <strong>Iniciar sesión</strong> en la cabecera o visita directamente <strong>/login</strong>.</li>
+    <li>Introduce tu <strong>usuario</strong> y <strong>contraseña</strong> proporcionados por el administrador del club.</li>
+    <li>Tras validar las credenciales, el sistema te redirige automáticamente a tu área según tu rol.</li>
+    <li>Para salir, usa el botón <strong>Cerrar sesión</strong> en la barra lateral del panel.</li>
+  </ol>
+
+  <div class="route-list">
+    <span>Redirección automática por rol →</span><br>
+    Admin / Super Admin → /gestion &nbsp;|&nbsp; Entrenador → /gestion/mi-perfil &nbsp;|&nbsp; Jugador → /gestion/mi-ficha
+  </div>
+</div>
+
+<!-- ═══════════════ GUÍA — ROLES ═══════════════ -->
+<div class="page inner">
+  <div class="page-header">
+    <span class="page-header__brand">CV Berja Digital</span>
+    <span class="page-header__section">Guía de usuario · Roles</span>
+  </div>
+
+  <span class="guide-part">Parte II — Roles y permisos</span>
+  <h2>Roles del sistema</h2>
+  <p class="lead">Cada usuario solo ve las secciones y acciones que le corresponden. Esto protege datos sensibles (cuotas, fichas médicas, usuarios).</p>
+
+  <div class="table-wrap">
+    <table class="pricing-table role-table">
+      <thead>
+        <tr><th>Rol</th><th>Menú visible</th><th>Permisos principales</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Super Admin</td>
+          <td>Resumen, Jugadores, Equipos, Entrenadores, Contabilidad, Usuarios</td>
+          <td>Control total: gestionar usuarios del sistema, todos los módulos y datos del club</td>
+        </tr>
+        <tr>
+          <td>Administrador</td>
+          <td>Resumen, Jugadores, Equipos, Entrenadores, Contabilidad</td>
+          <td>Gestión completa del club excepto usuarios globales</td>
+        </tr>
+        <tr>
+          <td>Entrenador</td>
+          <td>Resumen, Mi perfil, Mis equipos, Mis jugadores</td>
+          <td>Consulta y edición de sus equipos y jugadores asignados; edición de su perfil y tácticas</td>
+        </tr>
+        <tr>
+          <td>Solo lectura</td>
+          <td>Resumen, Jugadores, Equipos, Entrenadores</td>
+          <td>Consulta sin permiso de edición ni acceso a contabilidad</td>
+        </tr>
+        <tr>
+          <td>Jugador</td>
+          <td>Mi ficha</td>
+          <td>Consulta de su ficha personal, datos médicos y cambio de contraseña</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Estructura del panel</h3>
+  <div class="grid-2">
+    <div class="card">
+      <h4>Barra lateral</h4>
+      <ul>
+        <li>Logo y nombre del club</li>
+        <li>Enlaces de navegación según rol</li>
+        <li>Nombre de usuario y rol activo</li>
+        <li>Botón cerrar sesión</li>
+        <li>Enlace «Ver web pública»</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Zona de contenido</h4>
+      <ul>
+        <li>Cabecera con título de la sección</li>
+        <li>Tablas, formularios y gráficos</li>
+        <li>Botones de acción (crear, editar, eliminar)</li>
+        <li>Modales para formularios y confirmaciones</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="warn">
+    <strong>Importante:</strong> Si no ves una sección del menú, es porque tu rol no tiene permiso. Contacta con el Super Admin para solicitar cambios de rol.
+  </div>
+</div>
+
+<!-- ═══════════════ GUÍA — DASHBOARD Y JUGADORES ═══════════════ -->
+<div class="page inner">
+  <div class="page-header">
+    <span class="page-header__brand">CV Berja Digital</span>
+    <span class="page-header__section">Guía de usuario · Gestión</span>
+  </div>
+
+  <span class="guide-part">Parte III — Módulos de gestión</span>
+  <h2>Dashboard (Resumen)</h2>
+  <p><strong>Ruta:</strong> /gestion &nbsp;·&nbsp; <strong>Roles:</strong> Admin, Entrenador, Lectura</p>
+  <p>Panel de control con indicadores clave del club:</p>
+  <ul>
+    <li>Número de equipos y jugadores activos</li>
+    <li>Pagos pendientes e ingresos del periodo (solo admin)</li>
+    <li>Gráficos: jugadores por equipo, estado de pagos, evolución mensual de ingresos</li>
+    <li>Accesos rápidos a jugadores, equipos y contabilidad</li>
+  </ul>
+
+  <h2>Jugadores</h2>
+  <p><strong>Ruta:</strong> /gestion/jugadores &nbsp;·&nbsp; <strong>Roles:</strong> Admin (CRUD completo), Entrenador (crear/editar), Lectura (solo ver)</p>
+
+  <h3>Crear un jugador</h3>
+  <ol class="steps">
+    <li>Pulsa el botón <strong>+ Nuevo jugador</strong>.</li>
+    <li>Completa los datos: nombre, apellidos, equipo, DNI, fecha de nacimiento, email, teléfono y notas.</li>
+    <li>En la pestaña <strong>Foto</strong>, sube una imagen de perfil (arrastrar o seleccionar archivo).</li>
+    <li>En la pestaña <strong>Médico</strong>, registra incidencias, alergias o revisiones (admin/entrenador).</li>
+    <li>Guarda. El sistema puede generar credenciales de acceso para el portal del jugador.</li>
+  </ol>
+
+  <h3>Ficha detallada</h3>
+  <p>Pulsa el icono de ficha o el nombre del jugador para abrir <strong>/gestion/jugadores/:id</strong> con toda su información, historial médico y opciones de credenciales.</p>
+
+  <h3>Filtros y acciones</h3>
+  <ul>
+    <li><strong>Filtrar por equipo</strong> — Desplegable superior para ver solo una plantilla</li>
+    <li><strong>Editar</strong> (lápiz) — Modificar datos del jugador</li>
+    <li><strong>Eliminar</strong> (papelera) — Solo admin; pide confirmación</li>
+    <li><strong>Credenciales</strong> — Asignar usuario/contraseña para que el jugador acceda a Mi ficha</li>
+  </ul>
+
+  <h2>Equipos</h2>
+  <p><strong>Ruta:</strong> /gestion/equipos &nbsp;·&nbsp; <strong>Roles:</strong> Admin (CRUD), Entrenador (consulta)</p>
+
+  <ol class="steps">
+    <li>Pulsa <strong>+ Nuevo equipo</strong> para crear una categoría (ej. Senior, Juvenil).</li>
+    <li>Indica nombre, categoría, temporada y entrenador asignado.</li>
+    <li>Sube foto del equipo en la pestaña correspondiente.</li>
+    <li>Marca como activo/inactivo según la temporada.</li>
+    <li>Guarda. Los jugadores se asignan desde el módulo Jugadores.</li>
+  </ol>
+</div>
+
+<!-- ═══════════════ GUÍA — ENTRENADORES Y CONTABILIDAD ═══════════════ -->
+<div class="page inner">
+  <div class="page-header">
+    <span class="page-header__brand">CV Berja Digital</span>
+    <span class="page-header__section">Guía de usuario · Admin</span>
+  </div>
+
+  <h2>Entrenadores</h2>
+  <p><strong>Ruta:</strong> /gestion/entrenadores &nbsp;·&nbsp; <strong>Roles:</strong> Solo Admin</p>
+
+  <ol class="steps">
+    <li>Accede a la lista de entrenadores y pulsa <strong>+ Nuevo</strong>.</li>
+    <li>Rellena nombre, email, teléfono y datos de perfil.</li>
+    <li>Asigna credenciales de acceso para que puedan entrar como rol Entrenador.</li>
+    <li>En la ficha del entrenador (<strong>/gestion/entrenadores/:id</strong>) gestiona sus <strong>tácticas</strong>: crear, editar y eliminar documentos tácticos.</li>
+  </ol>
+
+  <p>Los entrenadores, al iniciar sesión, ven su propio perfil en <strong>/gestion/mi-perfil</strong> y pueden editar sus datos y tácticas.</p>
+
+  <h2>Contabilidad</h2>
+  <p><strong>Ruta:</strong> /gestion/contabilidad &nbsp;·&nbsp; <strong>Roles:</strong> Solo Admin</p>
+
+  <p>El módulo tiene dos pestañas principales:</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <h4>Pestaña Pagos</h4>
+      <ul>
+        <li>Registro de cada cuota: jugador, importe, fecha, método y estado</li>
+        <li>Estados: <em>pagado</em>, <em>pendiente</em>, <em>devuelto</em></li>
+        <li>Métodos: efectivo, transferencia, bizum, etc.</li>
+        <li>Gráficos de ingresos por mes, método y estado</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Pestaña Planes de cuota</h4>
+      <ul>
+        <li>Define tarifas por temporada (ej. «Cuota senior 2025-26»)</li>
+        <li>Asocia importe fijo a categorías o tipos de jugador</li>
+        <li>Al registrar un pago, selecciona el plan para autocompletar el importe</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Registrar un pago</h3>
+  <ol class="steps">
+    <li>En Contabilidad → Pagos, pulsa <strong>+ Nuevo pago</strong>.</li>
+    <li>Selecciona jugador y plan de cuota (opcional).</li>
+    <li>Indica importe, fecha, método de pago y estado.</li>
+    <li>Añade notas si procede (descuentos, becas, observaciones).</li>
+    <li>Guarda. El dashboard actualizará los totales automáticamente.</li>
+  </ol>
+
+  <h2>Usuarios</h2>
+  <p><strong>Ruta:</strong> /gestion/usuarios &nbsp;·&nbsp; <strong>Roles:</strong> Solo Super Admin</p>
+
+  <ol class="steps">
+    <li>Lista todos los usuarios del sistema (admin, entrenadores con cuenta, etc.).</li>
+    <li><strong>Crear usuario:</strong> username, email, contraseña, nombre y rol.</li>
+    <li><strong>Editar:</strong> cambiar nombre, rol o activar/desactivar cuenta.</li>
+    <li><strong>Eliminar:</strong> borrar cuenta (con confirmación). No eliminar tu propia sesión activa.</li>
+  </ol>
+</div>
+
+<!-- ═══════════════ GUÍA — PORTALES ═══════════════ -->
+<div class="page inner">
+  <div class="page-header">
+    <span class="page-header__brand">CV Berja Digital</span>
+    <span class="page-header__section">Guía de usuario · Portales</span>
+  </div>
+
+  <span class="guide-part">Parte IV — Portal jugador y entrenador</span>
+  <h2>Portal del jugador — Mi ficha</h2>
+  <p><strong>Ruta:</strong> /gestion/mi-ficha &nbsp;·&nbsp; <strong>Rol:</strong> Jugador</p>
+
+  <p>El jugador accede con las credenciales que le asigne el club desde el módulo Jugadores. En su ficha puede ver:</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <h4>Datos personales</h4>
+      <ul>
+        <li>Nombre, foto, edad y contacto</li>
+        <li>Equipo y entrenador asignado</li>
+        <li>Tutores / responsables (si están registrados)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Salud y seguridad</h4>
+      <ul>
+        <li>Registro médico e incidencias</li>
+        <li>Estadísticas básicas de participación</li>
+        <li>Cambio de contraseña personal</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Cambiar contraseña (jugador)</h3>
+  <ol class="steps">
+    <li>Entra en Mi ficha con tu usuario y contraseña.</li>
+    <li>Desplázate al formulario de <strong>Nueva contraseña</strong>.</li>
+    <li>Introduce la contraseña deseada y confirma.</li>
+    <li>Guarda. Usa la nueva contraseña en el próximo acceso.</li>
+  </ol>
+
+  <h2>Portal del entrenador</h2>
+  <p><strong>Rutas:</strong> /gestion/mi-perfil · /gestion/equipos · /gestion/jugadores &nbsp;·&nbsp; <strong>Rol:</strong> Entrenador</p>
+
+  <ul>
+    <li><strong>Mi perfil</strong> — Editar datos personales, foto y documentos de tácticas</li>
+    <li><strong>Mis equipos</strong> — Ver los equipos que tiene asignados (solo lectura si no es admin)</li>
+    <li><strong>Mis jugadores</strong> — Gestionar fichas de jugadores de sus equipos</li>
+    <li><strong>Resumen</strong> — Dashboard con métricas de sus plantillas (sin datos de contabilidad global)</li>
+  </ul>
+
+  <div class="tip">
+    <strong>Flujo recomendado para entrenadores:</strong> Revisa el Resumen al inicio de semana → actualiza fichas de jugadores tras entrenamientos → consulta equipos antes de convocatorias.
+  </div>
+</div>
+
+<!-- ═══════════════ GUÍA — FAQ ═══════════════ -->
+<div class="page inner">
+  <div class="page-header">
+    <span class="page-header__brand">CV Berja Digital</span>
+    <span class="page-header__section">Guía de usuario · FAQ</span>
+  </div>
+
+  <span class="guide-part">Parte V — Preguntas frecuentes</span>
+  <h2>Solución de problemas</h2>
+
+  <div class="table-wrap">
+    <table class="pricing-table">
+      <thead>
+        <tr><th>Problema</th><th>Solución</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>No puedo iniciar sesión</td>
+          <td>Verifica usuario y contraseña. Si persiste, pide al Super Admin que restablezca tus credenciales.</td>
+        </tr>
+        <tr>
+          <td>No veo el menú Contabilidad</td>
+          <td>Solo administradores tienen acceso. El rol Entrenador y Lectura no incluyen este módulo.</td>
+        </tr>
+        <tr>
+          <td>Error al subir una foto</td>
+          <td>Usa JPG o PNG de tamaño razonable (&lt; 5 MB). Comprueba tu conexión a internet.</td>
+        </tr>
+        <tr>
+          <td>Los datos no se actualizan</td>
+          <td>Recarga la página (F5). Si el error continúa, puede haber incidencia de servidor — contacta soporte.</td>
+        </tr>
+        <tr>
+          <td>El jugador no accede a Mi ficha</td>
+          <td>El admin debe crear credenciales desde Jugadores → Credenciales y comunicar usuario/contraseña al jugador.</td>
+        </tr>
+        <tr>
+          <td>¿Cómo vuelvo a la web pública?</td>
+          <td>En la barra lateral del panel, pulsa <strong>Ver web pública</strong> o visita la URL principal del club.</td>
+        </tr>
+        <tr>
+          <td>El directo no se ve</td>
+          <td>Comprueba que hay emisión activa en el canal de YouTube del club. Si no hay partido, se muestra aviso o último vídeo.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Buenas prácticas del club</h3>
+  <ul>
+    <li>Revisar el dashboard al inicio de cada mes para controlar cuotas pendientes</li>
+    <li>Mantener fichas de jugadores actualizadas (teléfono, equipo, datos médicos)</li>
+    <li>Desactivar usuarios y jugadores que abandonen el club en lugar de eliminarlos (historial)</li>
+    <li>Asignar el rol mínimo necesario a cada persona (principio de menor privilegio)</li>
+    <li>Comunicar a familias la URL de la web y el acceso al portal del jugador</li>
+  </ul>
+
+  <h3>Soporte incluido</h3>
+  <p>
+    Con el plan de mantenimiento (100 €/mes), el club dispone de corrección de errores, monitorización del servidor
+    y asistencia ante incidencias técnicas. Para nuevas funcionalidades, solicita un módulo adicional (desde 100 €).
+  </p>
+
+  <div class="includes-box">
+    <h3>Resumen de la documentación entregada</h3>
+    <div class="grid-2">
+      <ul>
+        <li>Propuesta comercial y precios</li>
+        <li>Descripción de funcionalidades</li>
+        <li>Arquitectura técnica</li>
+        <li>Guía de usuario por roles</li>
+      </ul>
+      <ul>
+        <li>Manual de cada módulo del panel</li>
+        <li>Portal jugador y entrenador</li>
+        <li>FAQ y solución de problemas</li>
+        <li>Documentación de despliegue (técnica)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ PRECIOS ═══════════════ -->
+<div class="page inner">
+  <div class="page-header">
+    <span class="page-header__brand">CV Berja Digital</span>
+    <span class="page-header__section">Inversión y condiciones</span>
+  </div>
+
+  <h2>Propuesta económica</h2>
+  <p class="lead">Precios claros, sin sorpresas. El producto base incluye todo lo descrito en este documento.</p>
+
+  <div class="pricing-hero">
+    <div>
+      <p class="pricing-hero__label">Licencia del producto completo</p>
+      <p class="pricing-hero__price">2.500 €</p>
+    </div>
+    <div>
+      <p class="pricing-hero__note">
+        Pago único por la plataforma digital integral: web pública, panel de gestión,
+        API backend, base de datos MySQL, subida a hosting con URL propia del club y transferencia del sistema.
+      </p>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table class="pricing-table">
+      <thead>
+        <tr>
+          <th>Concepto</th>
+          <th>Descripción</th>
+          <th>Precio</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Plataforma digital CV Berja</strong></td>
+          <td>
+            Web pública completa (inicio, historia, equipos, partidos, resultados, calendario, en directo, patrocinadores, redes sociales)
+            + Panel de gestión (dashboard, jugadores, equipos, entrenadores, contabilidad, usuarios, portales)
+            + Backend API + Base de datos MySQL + Subida a hosting con dominio y URL del club + Guía de usuario
+          </td>
+          <td class="price-tag">2.500 €</td>
+        </tr>
+        <tr>
+          <td><strong>Gestión de servidor y errores</strong></td>
+          <td>
+            Mantenimiento mensual: hosting, dominio, SSL, base de datos, monitorización, copias de seguridad,
+            corrección de bugs, actualizaciones de seguridad y soporte técnico ante incidencias.
+          </td>
+          <td class="price-tag">100 €/mes</td>
+        </tr>
+        <tr>
+          <td><strong>Nuevo módulo</strong></td>
+          <td>
+            Desarrollo e integración de funcionalidades adicionales a medida
+            (ej.: tienda online, gestión de inscripciones, notificaciones push, estadísticas avanzadas, integración con federación…).
+            Precio por módulo según alcance acordado.
+          </td>
+          <td class="price-tag">desde 100 €</td>
+        </tr>
+        <tr class="total-row">
+          <td colspan="2"><strong>Inversión inicial (producto + primer mes de mantenimiento)</strong></td>
+          <td class="price-tag">2.600 €</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="includes-box">
+    <h3>Qué incluye la licencia de 2.500 €</h3>
+    <div class="grid-2">
+      <ul>
+        <li>Código fuente frontend y backend</li>
+        <li>Subida a hosting con dominio y URL del club</li>
+        <li>Configuración de base de datos MySQL</li>
+        <li>Integración redes sociales y YouTube Live</li>
+        <li>Sistema de autenticación y roles</li>
+        <li>Panel de gestión completo</li>
+      </ul>
+      <ul>
+        <li>Web pública con todas las secciones</li>
+        <li>Subida de fotos y archivos</li>
+        <li>Gráficos y dashboards analíticos</li>
+        <li>Guía de usuario completa (este documento)</li>
+        <li>Documentación de despliegue</li>
+        <li>Puesta en marcha y formación básica</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="includes-box" style="border-color: var(--line); background: var(--bg);">
+    <h3 style="color: var(--ink);">Qué incluye el mantenimiento de 100 €/mes</h3>
+    <div class="grid-2">
+      <ul>
+        <li>Monitorización de servidores 24/7</li>
+        <li>Corrección de errores y bugs</li>
+        <li>Actualizaciones de dependencias críticas</li>
+      </ul>
+      <ul>
+        <li>Gestión de dominio y certificados SSL</li>
+        <li>Soporte técnico por incidencias</li>
+        <li>Optimización de rendimiento básica</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <strong>¿Listo para digitalizar el Club Voleibol Berja?</strong>
+    <p>
+      Para formalizar el acuerdo, solicitar una demo en vivo del sistema o resolver cualquier duda sobre el despliegue,
+      contacta con el equipo de desarrollo.
+    </p>
+  </div>
+
+  <p class="footer-note">
+    Documento generado en junio de 2026 · Propuesta comercial + Guía de usuario · Club Voleibol Berja — Plataforma Digital
+  </p>
+</div>
+
+</body>
+</html>
