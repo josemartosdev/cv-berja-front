@@ -23,8 +23,7 @@ import AdminRoute from "./components/gestion/AdminRoute";
 import StaffRoute from "./components/gestion/StaffRoute";
 import PlayerOnlyRoute from "./components/gestion/PlayerOnlyRoute";
 import MiFichaPage from "./pages/gestion/MiFichaPage";
-import './App.css'
-import './styles/public-web.css'
+import "./App.css";
 
 function App() {
   return (
@@ -54,7 +53,10 @@ function App() {
               <Route path="mi-perfil" element={<EntrenadorDetallePage />} />
               <Route element={<AdminRoute />}>
                 <Route path="entrenadores" element={<EntrenadoresPage />} />
-                <Route path="entrenadores/:id" element={<EntrenadorDetallePage />} />
+                <Route
+                  path="entrenadores/:id"
+                  element={<EntrenadorDetallePage />}
+                />
               </Route>
               <Route path="contabilidad" element={<ContabilidadPage />} />
               <Route element={<SuperAdminRoute />}>
@@ -64,12 +66,15 @@ function App() {
           </Route>
         </Route>
 
-        <Route path="/mi-ficha" element={<Navigate to="/gestion/mi-ficha" replace />} />
+        <Route
+          path="/mi-ficha"
+          element={<Navigate to="/gestion/mi-ficha" replace />}
+        />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

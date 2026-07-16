@@ -1,32 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import { ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 import { SPONSORS } from "../../data/sponsors";
-
-function SponsorImage({ sponsor }) {
-  const [failed, setFailed] = useState(false);
-
-  if (failed) {
-    return (
-      <div className="patro-carousel__fallback" aria-hidden>
-        <span>{sponsor.initials}</span>
-      </div>
-    );
-  }
-
-  return (
-    <img
-      src={sponsor.image}
-      alt={sponsor.name}
-      className="patro-carousel__img"
-      onError={() => setFailed(true)}
-    />
-  );
-}
 
 export default function SponsorCarousel() {
   const [index, setIndex] = useState(0);
   const total = SPONSORS.length;
-  const sponsor = SPONSORS[index];
 
   const go = useCallback(
     (delta) => {
@@ -34,11 +11,6 @@ export default function SponsorCarousel() {
     },
     [total],
   );
-
-  useEffect(() => {
-    const timer = setInterval(() => go(1), 7000);
-    return () => clearInterval(timer);
-  }, [go]);
 
   useEffect(() => {
     const onKey = (e) => {
@@ -49,90 +21,117 @@ export default function SponsorCarousel() {
     return () => window.removeEventListener("keydown", onKey);
   }, [go]);
 
-  const linkProps =
-    sponsor.url === "#"
-      ? { href: "#", onClick: (e) => e.preventDefault() }
-      : sponsor.url?.startsWith("mailto")
-        ? { href: sponsor.url }
-        : { href: sponsor.url, target: "_blank", rel: "noreferrer noopener" };
-
   return (
-    <section className="patro-carousel" aria-label="Carrusel de patrocinadores" aria-roledescription="carousel">
-      <div className="patro-carousel__viewport">
-        <article
-          key={sponsor.id}
-          className="patro-carousel__slide"
-          aria-live="polite"
-          aria-atomic="true"
+    <section
+      className="sponsor-swiper-section"
+      aria-label="Carrusel de patrocinadores"
+    >
+      <div
+        className="swiper"
+        aria-roledescription="carousel"
+        aria-live="polite"
+      >
+        <div
+          className="swiper-wrapper"
+          style={{ transform: `translateX(-${index * 100}%)` }}
         >
-          <div className="patro-carousel__media">
-            <SponsorImage sponsor={sponsor} />
-            <div className="patro-carousel__media-shade" aria-hidden />
-          </div>
-
-          <div className="patro-carousel__content">
-            <p className="patro-carousel__count">
-              {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
-            </p>
-            <h2>{sponsor.name}</h2>
-            <p className="patro-carousel__tagline">{sponsor.tagline}</p>
-            <p className="patro-carousel__desc">{sponsor.description}</p>
-            <div className="patro-carousel__meta">
-              <span>Colaborador desde {sponsor.since}</span>
-              {sponsor.url !== "#" && (
-                <a className="patro-carousel__link" {...linkProps}>
-                  Visitar web
-                  <ExternalLink size={16} aria-hidden />
+          {SPONSORS.map((sponsor, i) => (
+            <article
+              key={sponsor.id}
+              className="swiper-slide"
+              style={{
+                backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0.12) 10%, rgba(0, 0, 0, 0.8) 100%), url(${sponsor.image})`,
+              }}
+            >
+              <span>{sponsor.tagline}</span>
+              <div className="swiper-slide__content">
+                <h2>{sponsor.name}</h2>
+                <p className="swiper-slide__meta">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="swiper-icon"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
+                    />
+                  </svg>
+                  Berja, Almeria · Desde {sponsor.since}
+                </p>
+                <p className="swiper-slide__description">
+                  {sponsor.description}
+                </p>
+                <a
+                  href={
+                    sponsor.url && sponsor.url !== "#"
+                      ? sponsor.url
+                      : "#colaborar"
+                  }
+                  target={
+                    sponsor.url &&
+                    sponsor.url !== "#" &&
+                    !sponsor.url.startsWith("mailto:")
+                      ? "_blank"
+                      : undefined
+                  }
+                  rel={
+                    sponsor.url &&
+                    sponsor.url !== "#" &&
+                    !sponsor.url.startsWith("mailto:")
+                      ? "noreferrer noopener"
+                      : undefined
+                  }
+                  className="swiper-slide__cta"
+                >
+                  Mas info
                 </a>
-              )}
-            </div>
-          </div>
-        </article>
-      </div>
+              </div>
+            </article>
+          ))}
+        </div>
 
-      <button
-        type="button"
-        className="patro-carousel__nav patro-carousel__nav--prev"
-        onClick={() => go(-1)}
-        aria-label="Patrocinador anterior"
-      >
-        <ChevronLeft size={28} />
-      </button>
-      <button
-        type="button"
-        className="patro-carousel__nav patro-carousel__nav--next"
-        onClick={() => go(1)}
-        aria-label="Siguiente patrocinador"
-      >
-        <ChevronRight size={28} />
-      </button>
-
-      <div className="patro-carousel__dots" role="tablist" aria-label="Seleccionar patrocinador">
-        {SPONSORS.map((s, i) => (
+        <div className="swiper-controls">
           <button
-            key={s.id}
             type="button"
-            role="tab"
-            aria-selected={i === index}
-            aria-label={s.name}
-            className={`patro-carousel__dot${i === index ? " patro-carousel__dot--active" : ""}`}
-            onClick={() => setIndex(i)}
-          />
-        ))}
-      </div>
-
-      <div className="patro-carousel__thumbs">
-        {SPONSORS.map((s, i) => (
-          <button
-            key={s.id}
-            type="button"
-            className={`patro-carousel__thumb${i === index ? " patro-carousel__thumb--active" : ""}`}
-            onClick={() => setIndex(i)}
-            tabIndex={-1}
+            className="swiper-nav swiper-nav--prev"
+            onClick={() => go(-1)}
+            aria-label="Patrocinador anterior"
           >
-            {s.name}
+            &#8249;
           </button>
-        ))}
+
+          <div className="swiper-pagination">
+            {SPONSORS.map((sponsor, i) => (
+              <button
+                key={sponsor.id}
+                type="button"
+                aria-label={`Ir a ${sponsor.name}`}
+                className={`swiper-pagination__dot${i === index ? " is-active" : ""}`}
+                onClick={() => setIndex(i)}
+              />
+            ))}
+          </div>
+
+          <button
+            type="button"
+            className="swiper-nav swiper-nav--next"
+            onClick={() => go(1)}
+            aria-label="Siguiente patrocinador"
+          >
+            &#8250;
+          </button>
+        </div>
       </div>
     </section>
   );

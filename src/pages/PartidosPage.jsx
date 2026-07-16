@@ -1,14 +1,10 @@
 import PublicLayout from "../layouts/PublicLayout";
-import Cartelera from "../components/Partidos/Cartelera";
-import ProximosEncuentros from "../components/Partidos/ProximosEncuentros";
+import PartidosShowcase from "../components/Partidos/PartidosShowcase";
 
 export default function PartidosPage() {
   return (
     <PublicLayout>
-      <div className="pagina-estandar">
-        <Cartelera />
-        <ProximosEncuentros />
-      </div>
+      <PartidosShowcase />
     </PublicLayout>
   );
 }

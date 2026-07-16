@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
-import "./../App.css";
 import logo from "../assets/logo.jpg";
 
 const links = [
@@ -36,7 +35,9 @@ function Cabecera() {
               to={to}
               end={end}
               onClick={() => setOpen(false)}
-              className={({ isActive }) => (isActive ? "nav__btn nav__btn--active" : "nav__btn")}
+              className={({ isActive }) =>
+                isActive ? "nav__btn nav__btn--active" : "nav__btn"
+              }
             >
               {label}
             </NavLink>
@@ -44,14 +45,20 @@ function Cabecera() {
           <NavLink
             to="/login"
             onClick={() => setOpen(false)}
-            className={({ isActive }) => (isActive ? "nav__btn nav__btn--active nav__btn--login" : "nav__btn nav__btn--login")}
+            className={({ isActive }) =>
+              isActive
+                ? "nav__btn nav__btn--active nav__btn--login"
+                : "nav__btn nav__btn--login"
+            }
           >
             Iniciar sesión
           </NavLink>
         </nav>
 
         <div className="cabecera__actions">
-          <Link to="/login" className="cabecera__cta">Iniciar sesión</Link>
+          <Link to="/login" className="cabecera__cta">
+            Iniciar sesión
+          </Link>
           <button
             className="cabecera__hamburger"
             aria-label="Abrir menú"
@@ -65,7 +72,9 @@ function Cabecera() {
         </div>
       </div>
 
-      {open && <div className="cabecera__overlay" onClick={() => setOpen(false)} />}
+      {open && (
+        <div className="cabecera__overlay" onClick={() => setOpen(false)} />
+      )}
     </header>
   );
 }
