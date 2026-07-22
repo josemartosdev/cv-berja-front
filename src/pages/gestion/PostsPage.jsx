@@ -92,8 +92,8 @@ export default function PostsPage() {
 
       <GestionAlert type="error">{error}</GestionAlert>
 
-      <div className="gestion-toolbar">
-        <label className="gestion-field gestion-field--inline">
+      <div className="gestion-toolbar gestion-toolbar--posts">
+        <label className="gestion-field gestion-field--inline gestion-toolbar__field">
           <span>Estado</span>
           <select
             className="gestion-input gestion-select"
@@ -106,14 +106,14 @@ export default function PostsPage() {
           </select>
         </label>
 
-        <label className="gestion-field gestion-field--inline">
-          <span>Categoría</span>
+        <label className="gestion-field gestion-field--inline gestion-toolbar__field gestion-toolbar__field--category">
           <select
             className="gestion-input gestion-select"
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
+            aria-label="Categoría"
           >
-            <option value="all">Todas</option>
+            <option value="all">Todas las categorías</option>
             {categories.map((category) => (
               <option key={category.id} value={category.id}>
                 {category.nombre}

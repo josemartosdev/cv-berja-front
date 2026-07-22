@@ -6002,6 +6002,28 @@ html {
   margin-bottom: 1rem;
 }
 
+.gestion-toolbar--posts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 12px;
+}
+
+.gestion-toolbar--posts .gestion-toolbar__field {
+  flex: 0 0 220px;
+  max-width: 220px;
+}
+
+.gestion-toolbar--posts .gestion-toolbar__field--category {
+  flex: 1 1 320px;
+  max-width: none;
+  min-width: 220px;
+}
+
+.gestion-toolbar--posts .gestion-toolbar__field--category .gestion-select {
+  width: 100%;
+}
+
 .gestion-field {
   display: grid;
   gap: 6px;
