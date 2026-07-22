@@ -7,6 +7,8 @@ import ResultadosPage from "./pages/ResultadosPage";
 import CalendarioPage from "./pages/CalendarioPage";
 import EnDirectoPage from "./pages/EnDirectoPage";
 import Login from "./pages/Login";
+import PostsPage from "./pages/PostsPage";
+import PostDetailPage from "./pages/PostDetailPage";
 import PatrocinadoresPage from "./pages/PatrocinadoresPage";
 import GestionLayout from "./layouts/GestionLayout";
 import ProtectedRoute from "./components/gestion/ProtectedRoute";
@@ -18,6 +20,10 @@ import ContabilidadPage from "./pages/gestion/ContabilidadPage";
 import UsuariosPage from "./pages/gestion/UsuariosPage";
 import EntrenadoresPage from "./pages/gestion/EntrenadoresPage";
 import EntrenadorDetallePage from "./pages/gestion/EntrenadorDetallePage";
+import GestionPostsPage from "./pages/gestion/PostsPage";
+import PostEditorPage from "./pages/gestion/PostEditorPage";
+import PostCategoriesPage from "./pages/gestion/PostCategoriesPage";
+import MiCuentaPage from "./pages/gestion/MiCuentaPage";
 import SuperAdminRoute from "./components/gestion/SuperAdminRoute";
 import AdminRoute from "./components/gestion/AdminRoute";
 import StaffRoute from "./components/gestion/StaffRoute";
@@ -38,6 +44,8 @@ function App() {
         <Route path="/resultados" element={<ResultadosPage />} />
         <Route path="/en-directo" element={<EnDirectoPage />} />
         <Route path="/calendario" element={<CalendarioPage />} />
+        <Route path="/posts" element={<PostsPage />} />
+        <Route path="/posts/:id" element={<PostDetailPage />} />
         <Route path="/login" element={<Login />} />
 
         <Route element={<ProtectedRoute />}>
@@ -47,16 +55,24 @@ function App() {
             </Route>
             <Route element={<StaffRoute />}>
               <Route index element={<Dashboard />} />
+              <Route path="mi-cuenta" element={<MiCuentaPage />} />
               <Route path="jugadores" element={<JugadoresGestionPage />} />
               <Route path="jugadores/:id" element={<JugadorDetallePage />} />
               <Route path="equipos" element={<EquiposGestionPage />} />
               <Route path="mi-perfil" element={<EntrenadorDetallePage />} />
               <Route element={<AdminRoute />}>
                 <Route path="entrenadores" element={<EntrenadoresPage />} />
+                <Route path="posts/nuevo" element={<PostEditorPage />} />
+                <Route path="posts/:id/editar" element={<PostEditorPage />} />
+                <Route
+                  path="post-categories"
+                  element={<PostCategoriesPage />}
+                />
                 <Route
                   path="entrenadores/:id"
                   element={<EntrenadorDetallePage />}
                 />
+                <Route path="posts" element={<GestionPostsPage />} />
               </Route>
               <Route path="contabilidad" element={<ContabilidadPage />} />
               <Route element={<SuperAdminRoute />}>

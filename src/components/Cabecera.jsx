@@ -4,6 +4,7 @@ import logo from "../assets/logo.jpg";
 
 const links = [
   { to: "/", label: "Inicio", end: true },
+  { to: "/posts", label: "Posts" },
   { to: "/equipos", label: "Equipos" },
   { to: "/partidos", label: "Partidos" },
   { to: "/en-directo", label: "En Directo" },

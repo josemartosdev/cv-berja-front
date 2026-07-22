@@ -51,21 +51,44 @@ export function getGestionNavItems(role) {
   if (role === "entrenador") {
     return [
       { to: "/gestion", label: "Resumen", end: true, icon: "LayoutDashboard" },
-      { to: "/gestion/mi-perfil", label: "Mi perfil", end: false, icon: "ClipboardList" },
+      {
+        to: "/gestion/mi-perfil",
+        label: "Mi perfil",
+        end: false,
+        icon: "ClipboardList",
+      },
       { to: "/gestion/equipos", label: "Mis equipos", icon: "Users" },
       { to: "/gestion/jugadores", label: "Mis jugadores", icon: "UserCircle" },
     ];
   }
 
   if (role === "jugador") {
-    return [{ to: "/gestion/mi-ficha", label: "Mi ficha", end: true, icon: "UserCircle" }];
+    return [
+      {
+        to: "/gestion/mi-ficha",
+        label: "Mi ficha",
+        end: true,
+        icon: "UserCircle",
+      },
+    ];
   }
 
   const items = [
     { to: "/gestion", label: "Resumen", end: true, icon: "LayoutDashboard" },
+    { to: "/gestion/mi-cuenta", label: "Mi cuenta", icon: "UserCircle" },
     { to: "/gestion/jugadores", label: "Jugadores", icon: "UserCircle" },
     { to: "/gestion/equipos", label: "Equipos", icon: "Users" },
-    { to: "/gestion/entrenadores", label: "Entrenadores", icon: "ClipboardList" },
+    {
+      to: "/gestion/entrenadores",
+      label: "Entrenadores",
+      icon: "ClipboardList",
+    },
+    { to: "/gestion/posts", label: "Posts", icon: "Newspaper" },
+    {
+      to: "/gestion/post-categories",
+      label: "Categorías",
+      icon: "Tag",
+    },
     { to: "/gestion/contabilidad", label: "Contabilidad", icon: "Wallet" },
   ];
 

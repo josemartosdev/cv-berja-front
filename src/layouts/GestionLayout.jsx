@@ -7,6 +7,8 @@ import {
   Wallet,
   UserCircle,
   ClipboardList,
+  Newspaper,
+  Tag,
   LogOut,
   ExternalLink,
   Menu,
@@ -23,6 +25,8 @@ const ICONS = {
   Wallet,
   UserCircle,
   ClipboardList,
+  Newspaper,
+  Tag,
 };
 
 export default function GestionLayout() {
@@ -53,7 +57,9 @@ export default function GestionLayout() {
         <span>{sidebarOpen ? "Cerrar menú" : "Menú"}</span>
       </button>
 
-      <aside className={`gestion-sidebar${sidebarOpen ? " gestion-sidebar--open" : ""}`}>
+      <aside
+        className={`gestion-sidebar${sidebarOpen ? " gestion-sidebar--open" : ""}`}
+      >
         <div className="gestion-sidebar__brand">
           <img src={logo} alt="" className="gestion-sidebar__logo" />
           <div>
@@ -75,7 +81,9 @@ export default function GestionLayout() {
               end={end}
               onClick={() => setSidebarOpen(false)}
               className={({ isActive }) =>
-                isActive ? "gestion-nav__link gestion-nav__link--active" : "gestion-nav__link"
+                isActive
+                  ? "gestion-nav__link gestion-nav__link--active"
+                  : "gestion-nav__link"
               }
             >
               <Icon size={18} />
@@ -87,9 +95,15 @@ export default function GestionLayout() {
           <p className="gestion-user">
             <strong>{user?.nombre}</strong>
             <span>@{user?.username}</span>
-            <span className="gestion-user__role">{ROLE_LABELS?.[user?.role] ?? user?.role}</span>
+            <span className="gestion-user__role">
+              {ROLE_LABELS?.[user?.role] ?? user?.role}
+            </span>
           </p>
-          <button type="button" className="gestion-sidebar__btn" onClick={handleLogout}>
+          <button
+            type="button"
+            className="gestion-sidebar__btn"
+            onClick={handleLogout}
+          >
             <LogOut size={16} />
             Cerrar sesión
           </button>
@@ -100,7 +114,12 @@ export default function GestionLayout() {
         </div>
       </aside>
 
-      {sidebarOpen && <div className="gestion-sidebar-overlay" onClick={() => setSidebarOpen(false)} />}
+      {sidebarOpen && (
+        <div
+          className="gestion-sidebar-overlay"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
 
       <main className="gestion-main">
         <Outlet />
