@@ -123,7 +123,7 @@ export const postsApi = {
   async createWithImage(body, file) {
     // Crear post sin imagen primero
     const created = await this.create(body);
-    
+
     // Si hay archivo, subirlo y actualizar
     if (file && created.id) {
       try {
@@ -139,7 +139,7 @@ export const postsApi = {
         return created;
       }
     }
-    
+
     return created;
   },
 

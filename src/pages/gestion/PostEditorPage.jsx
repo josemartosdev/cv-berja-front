@@ -16,6 +16,7 @@ const emptyForm = {
   publishedAt: "",
   published: true,
   categoryId: "",
+  imagenPath: "", // Campo para imagen_path de la BD
 };
 
 export default function PostEditorPage() {
@@ -52,6 +53,7 @@ export default function PostEditorPage() {
             : "",
           published: !!post.published,
           categoryId: post.categoryId ? String(post.categoryId) : "",
+          imagenPath: post.imageUrl || "",
         });
       }
     } catch (err) {
@@ -76,11 +78,14 @@ export default function PostEditorPage() {
       if (isEditing) {
         // Actualizar post
         await postsApi.update(id, body);
-        
+
         // Si hay archivo de imagen pendiente, subirlo
         if (pendingImageFile) {
           try {
-            const imageResult = await postsApi.uploadImage(id, pendingImageFile);
+            const imageResult = await postsApi.uploadImage(
+              id,
+              pendingImageFile,
+            );
             setForm({
               ...form,
               imageUrl: imageResult.imagen_path || imageResult.url,
@@ -217,7 +222,11 @@ export default function PostEditorPage() {
                 error={uploadError}
                 showTitle={false}
                 showDisplay={false}
-                buttonText={isEditing ? "Cambiar foto del post" : "Seleccionar foto del post"}
+                buttonText={
+                  isEditing
+                    ? "Cambiar foto del post"
+                    : "Seleccionar foto del post"
+                }
               />
 
               {/* Mostrar preview de nueva imagen pendiente */}
@@ -230,7 +239,8 @@ export default function PostEditorPage() {
                       marginBottom: "0.5rem",
                     }}
                   >
-                    Nueva foto (se subirá al {isEditing ? "actualizar" : "crear"}):
+                    Nueva foto (se subirá al{" "}
+                    {isEditing ? "actualizar" : "crear"}):
                   </p>
                   <img
                     src={pendingImagePreview}

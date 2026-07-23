@@ -123,6 +123,7 @@ export function buildPostPayload(form) {
   const excerpt = form.excerpt?.trim() || "";
   const content = form.content?.trim() || "";
   const imageUrl = form.imageUrl?.trim() || null;
+  const imagenPath = form.imagenPath?.trim() || null;
   const publishedAt = form.publishedAt || null;
   const categoryId = form.categoryId || null;
 
@@ -132,6 +133,7 @@ export function buildPostPayload(form) {
     excerpt,
     content,
     image_url: imageUrl,
+    imagen_path: imagenPath, // Campo correcto de la BD
     image_layout: form.imageLayout || "normal",
     published_at: publishedAt,
     is_published: !!form.published,
