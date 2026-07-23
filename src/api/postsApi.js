@@ -111,7 +111,7 @@ export const postsApi = {
     }
 
     console.log(
-      "Subiendo archivo:",
+      "📸 Subiendo archivo:",
       file.name,
       "Tamaño:",
       file.size,
@@ -123,17 +123,26 @@ export const postsApi = {
     formData.append("file", file);
 
     // Debug: verificar qué está en el FormData
-    console.log("FormData entries:", [...formData.entries()]);
+    const entries = [];
+    for (const [key, value] of formData.entries()) {
+      entries.push(`${key}: ${value instanceof File ? `File(${value.name}, ${value.size} bytes)` : value}`);
+    }
+    console.log("📦 FormData entries:", entries.join(", "));
 
-    const data = await requestWithFallback(
-      ADMIN_POSTS_ROUTES.map((route) => `${route}/${id}/image`),
-      {
-        method: "POST",
-        body: formData,
-      },
-    );
-    console.log("Respuesta del servidor:", data);
-    return data;
+    try {
+      const data = await requestWithFallback(
+        ADMIN_POSTS_ROUTES.map((route) => `${route}/${id}/image`),
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
+      console.log("✅ Respuesta del servidor:", data);
+      return data;
+    } catch (err) {
+      console.error("❌ Error al subir imagen:", err.message, err.status);
+      throw err;
+    }
   },
 
   async createWithImage(body, file) {

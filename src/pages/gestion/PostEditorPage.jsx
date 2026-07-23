@@ -86,7 +86,8 @@ export default function PostEditorPage() {
             });
             setPendingImageFile(null);
           } catch (imgErr) {
-            console.warn("Error al subir imagen:", imgErr);
+            console.warn("⚠️ Error al subir imagen:", imgErr.message);
+            setError(`Error al subir imagen: ${imgErr.message}`);
             // No es error fatal, continuamos
           }
         }

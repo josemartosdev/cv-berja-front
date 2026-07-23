@@ -54,7 +54,10 @@ export async function apiFetch(path, options = {}) {
     // Determinar el mensaje de error más apropiado
     let fallback = "Error en la petición";
 
-    if (res.status === 401) {
+    if (res.status === 400) {
+      // Si hay un error específico en data.error, lo usamos
+      fallback = data.error || data.message || "Petición inválida";
+    } else if (res.status === 401) {
       // Si es un endpoint público (auth: false), el 401 significa que el endpoint no es público
       fallback =
         options.auth === false
