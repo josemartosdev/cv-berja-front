@@ -105,6 +105,21 @@ export const postsApi = {
     );
   },
 
+  async uploadImage(id, file) {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const data = await requestWithFallback(
+      ADMIN_POSTS_ROUTES.map((route) => `${route}/${id}/image`),
+      {
+        method: "POST",
+        body: formData,
+        headers: {}, // Sin Content-Type para que navegador lo añada automáticamente
+      },
+    );
+    return data;
+  },
+
   categories: {
     async list() {
       const data = await requestWithFallback(CATEGORY_ROUTES);

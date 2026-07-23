@@ -169,35 +169,37 @@ export default function PostEditorPage() {
             </label>
 
             <div className="gestion-field gestion-field--full">
-              <PhotoUploadForm
-                title="Foto del post"
-                onSubmit={async ({ file, displayType }) => {
-                  setUploading(true);
-                  setUploadError("");
-                  try {
-                    const result = await galeriaApi.upload(
-                      file,
-                      "",
-                      "post",
-                      displayType,
-                    );
-                    setForm({
-                      ...form,
-                      imageUrl: result.url || result.imageUrl,
-                    });
-                  } catch (err) {
-                    setUploadError(err.message);
-                    throw err;
-                  } finally {
-                    setUploading(false);
-                  }
-                }}
-                loading={uploading}
-                error={uploadError}
-                showTitle={false}
-                showDisplay={true}
-                buttonText="Subir foto del post"
-              />
+              {isEditing ? (
+                <PhotoUploadForm
+                  title="Foto del post"
+                  onSubmit={async ({ file, displayType }) => {
+                    setUploading(true);
+                    setUploadError("");
+                    try {
+                      const result = await postsApi.uploadImage(id, file);
+                      setForm({
+                        ...form,
+                        imageUrl:
+                          result.imagen_path || result.imageUrl || result.url,
+                      });
+                    } catch (err) {
+                      setUploadError(err.message);
+                      throw err;
+                    } finally {
+                      setUploading(false);
+                    }
+                  }}
+                  loading={uploading}
+                  error={uploadError}
+                  showTitle={false}
+                  showDisplay={false}
+                  buttonText="Subir foto del post"
+                />
+              ) : (
+                <p style={{ color: "#999", fontSize: "0.9rem" }}>
+                  💡 Crea el post primero para poder subir una foto
+                </p>
+              )}
               {form.imageUrl && (
                 <div style={{ marginBottom: "1rem" }}>
                   <p

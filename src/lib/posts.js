@@ -49,6 +49,7 @@ export function normalizePost(raw = {}) {
         raw.imagen,
         raw.thumbnail,
         raw.portada,
+        raw.imagen_path,
       ]) || "",
     ),
     imageLayout: String(
