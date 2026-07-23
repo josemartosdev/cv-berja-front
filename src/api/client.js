@@ -94,5 +94,15 @@ export const authApi = {
       setAuthToken(null);
     }
   },
-  me: () => apiFetch("/auth/me"),
+  me: async () => {
+    try {
+      return await apiFetch("/auth/me");
+    } catch (err) {
+      // 401 es esperado cuando no hay sesión activa
+      if (err.status === 401) {
+        return { user: null };
+      }
+      throw err;
+    }
+  },
 };
