@@ -16,10 +16,15 @@ export function setAuthToken(token) {
 
 export async function apiFetch(path, options = {}) {
   const token = getAuthToken();
-  const headers = {
-    "Content-Type": "application/json",
-    ...options.headers,
-  };
+  const headers = {};
+
+  // Solo agregar Content-Type si no es FormData
+  if (!(options.body instanceof FormData)) {
+    headers["Content-Type"] = "application/json";
+  }
+
+  // Merge con headers personalizados
+  Object.assign(headers, options.headers);
 
   // Solo agregar token si options.auth !== false y tenemos token
   if (options.auth !== false && token) {

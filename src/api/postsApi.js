@@ -114,7 +114,6 @@ export const postsApi = {
       {
         method: "POST",
         body: formData,
-        headers: {}, // Sin Content-Type para que navegador lo añada automáticamente
       },
     );
     return data;
