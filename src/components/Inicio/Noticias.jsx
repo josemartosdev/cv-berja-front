@@ -1,38 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { postsApi } from "../../api/postsApi";
+import { formatPostDate, resolvePostImageUrl } from "../../lib/posts";
 
-const newsData = [
-  {
-    id: 1,
-    title: "La plantilla estrena el balón retro con el que se jugará la próxima jornada",
-    category: "PRIMER EQUIPO",
-    time: "ayer",
-    image: `${import.meta.env.BASE_URL}img/news_voley_1_1775723326918.png`,
-  },
-  {
-    id: 2,
-    title: "¡Qué locura de Liga! El equipo da una lección de carácter",
-    category: "PRIMER EQUIPO",
-    time: "anteayer",
-    image: `${import.meta.env.BASE_URL}img/news_voley_2_1775723342572.png`,
-  },
-  {
-    id: 3,
-    title: "¡Segundos, a un punto del líder al que se visita el domingo!",
-    category: "PRIMER EQUIPO",
-    time: "hace 4 días",
-    image: `${import.meta.env.BASE_URL}img/news_voley_3_1775723357681.png`,
-  },
-  {
-    id: 4,
-    title: "\"Este triunfo puede ser un punto de inflexión en lo colectivo\"",
-    category: "PRIMER EQUIPO",
-    time: "hace 4 días",
-    image: `${import.meta.env.BASE_URL}img/news_voley_4_1775723372543.png`,
-  },
-];
+const fallbackNewsImage =
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuBDE1haaerqpkwW7XgrNkUiGgWog9TfWGLiZrGP28d-XQ-5qXaozWdyMVG7R633a0sHzNNf9pCm4bNdalbgA6ZAKqTqY1MBod_4_ruhnUL6rpCxghon742FBi1h4YmmhzB8_bMaWHovlGW9JmP0hd3I5INdmJj6oSrENvhQqWZxw57b3SVdsdzd5rOZ7TLucUMjtieTB_HIv86TXLd7Y_9sVHM2o1o5ASAsv8ffi8RIGvmqC3KGbrv-AA";
 
 export default function Noticias() {
+  const [newsData, setNewsData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let active = true;
+    (async () => {
+      try {
+        const data = await postsApi.listPublic({ limit: 4 });
+        if (active) {
+          setNewsData(data.slice(0, 4));
+        }
+      } catch (err) {
+        console.error("Error cargando noticias:", err);
+        if (active) {
+          setNewsData([]);
+        }
+      } finally {
+        if (active) {
+          setLoading(false);
+        }
+      }
+    })();
+    return () => {
+      active = false;
+    };
+  }, []);
+
   const [featured, ...rest] = newsData;
+
+  if (loading || newsData.length === 0) {
+    return null;
+  }
+
   return (
     <section className="noticias-section">
       <div className="home-module__header">
@@ -42,24 +48,38 @@ export default function Noticias() {
       <div className="noticias-grid">
         <article className="noticia-card noticia-card--featured">
           <div className="noticia-photo">
-            <img src={featured.image} alt={featured.title} />
+            <img
+              src={resolvePostImageUrl(featured.imageUrl) || fallbackNewsImage}
+              alt={featured.title}
+            />
             <div className="noticia-overlay">
-              <span className="noticia-cat">{featured.category}</span>
+              <span className="noticia-cat">
+                {featured.category || "Actualidad"}
+              </span>
               <h3 className="noticia-title">{featured.title}</h3>
-              <span className="noticia-time">{featured.time}</span>
+              <span className="noticia-time">
+                {formatPostDate(featured.publishedAt)}
+              </span>
             </div>
           </div>
         </article>
         <div className="noticias-sidebar">
-          {rest.map(news => (
+          {rest.map((news) => (
             <article className="noticia-card noticia-card--small" key={news.id}>
               <div className="noticia-photo">
-                <img src={news.image} alt={news.title} />
+                <img
+                  src={resolvePostImageUrl(news.imageUrl) || fallbackNewsImage}
+                  alt={news.title}
+                />
               </div>
               <div className="noticia-info">
-                <span className="noticia-cat">{news.category}</span>
+                <span className="noticia-cat">
+                  {news.category || "Actualidad"}
+                </span>
                 <h3 className="noticia-title">{news.title}</h3>
-                <span className="noticia-time">{news.time}</span>
+                <span className="noticia-time">
+                  {formatPostDate(news.publishedAt)}
+                </span>
               </div>
             </article>
           ))}

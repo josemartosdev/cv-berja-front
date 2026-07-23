@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import PublicLayout from "../layouts/PublicLayout";
 import { postsApi } from "../api/postsApi";
 import { formatPostDate, resolvePostImageUrl } from "../lib/posts";
-import { publicPostsFallback } from "../data/publicPostsFallback";
 
 const fallbackNewsImage =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuBDE1haaerqpkwW7XgrNkUiGgWog9TfWGLiZrGP28d-XQ-5qXaozWdyMVG7R633a0sHzNNf9pCm4bNdalbgA6ZAKqTqY1MBod_4_ruhnUL6rpCxghon742FBi1h4YmmhzB8_bMaWHovlGW9JmP0hd3I5INdmJj6oSrENvhQqWZxw57b3SVdsdzd5rOZ7TLucUMjtieTB_HIv86TXLd7Y_9sVHM2o1o5ASAsv8ffi8RIGvmqC3KGbrv-AA";
@@ -20,8 +19,8 @@ export default function PostsPage() {
       const data = await postsApi.listPublic({ limit: 3 });
       setPosts(data.slice(0, 3));
     } catch (err) {
-      setPosts(publicPostsFallback);
-      setError("");
+      setError(err.message || "Error al cargar los posts");
+      setPosts([]);
     } finally {
       setLoading(false);
     }

@@ -3,8 +3,11 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import GestionPageHeader from "../../components/gestion/GestionPageHeader";
 import GestionAlert from "../../components/gestion/GestionAlert";
+import PhotoUploadForm from "../../components/PhotoUploadForm";
 import { postsApi } from "../../api/postsApi";
+import { galeriaApi } from "../../api/galeriaApi";
 import { buildPostPayload } from "../../lib/posts";
+import { uploadFile } from "../../api/upload";
 
 const emptyForm = {
   title: "",
@@ -24,6 +27,8 @@ export default function PostEditorPage() {
   const [loading, setLoading] = useState(isEditing);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
   const [categories, setCategories] = useState([]);
   const [form, setForm] = useState(emptyForm);
 
@@ -163,15 +168,60 @@ export default function PostEditorPage() {
               />
             </label>
 
-            <label className="gestion-field gestion-field--full">
-              <span>Imagen (URL o ruta)</span>
-              <input
-                className="gestion-input"
-                value={form.imageUrl}
-                onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
-                placeholder="/storage/posts/portada.jpg"
+            <div className="gestion-field gestion-field--full">
+              <PhotoUploadForm
+                title="Foto del post"
+                onSubmit={async ({ file, displayType }) => {
+                  setUploading(true);
+                  setUploadError("");
+                  try {
+                    const result = await galeriaApi.upload(
+                      file,
+                      "",
+                      "post",
+                      displayType,
+                    );
+                    setForm({
+                      ...form,
+                      imageUrl: result.url || result.imageUrl,
+                    });
+                  } catch (err) {
+                    setUploadError(err.message);
+                    throw err;
+                  } finally {
+                    setUploading(false);
+                  }
+                }}
+                loading={uploading}
+                error={uploadError}
+                showTitle={false}
+                showDisplay={true}
+                buttonText="Subir foto del post"
               />
-            </label>
+              {form.imageUrl && (
+                <div style={{ marginBottom: "1rem" }}>
+                  <p
+                    style={{
+                      fontSize: "0.9rem",
+                      color: "#666",
+                      marginBottom: "0.5rem",
+                    }}
+                  >
+                    Foto actual:
+                  </p>
+                  <img
+                    src={form.imageUrl}
+                    alt="Preview"
+                    style={{
+                      maxWidth: "200px",
+                      maxHeight: "150px",
+                      borderRadius: 6,
+                      objectFit: "cover",
+                    }}
+                  />
+                </div>
+              )}
+            </div>
 
             <label className="gestion-field">
               <span>Tamaño de imagen</span>

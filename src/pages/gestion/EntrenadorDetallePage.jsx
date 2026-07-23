@@ -4,9 +4,13 @@ import { ArrowLeft, Plus, Trash2, Pencil } from "lucide-react";
 import { gestionApi } from "../../api/gestionApi";
 import { uploadFile } from "../../api/upload";
 import { useAuth } from "../../context/AuthContext";
-import { canManagePlayers, canManageTeams, isAdminRole } from "../../lib/gestionHelpers";
+import {
+  canManagePlayers,
+  canManageTeams,
+  isAdminRole,
+} from "../../lib/gestionHelpers";
 import { mediaUrl } from "../../lib/mediaUrl";
-import PhotoUpload from "../../components/gestion/PhotoUpload";
+import DropzoneUpload from "../../components/DropzoneUpload";
 import GestionAlert from "../../components/gestion/GestionAlert";
 import GestionPageHeader from "../../components/gestion/GestionPageHeader";
 
@@ -30,6 +34,8 @@ export default function EntrenadorDetallePage() {
   const [teams, setTeams] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [uploadError, setUploadError] = useState("");
+  const [uploading, setUploading] = useState(false);
   const [tacticForm, setTacticForm] = useState(emptyTactic);
   const [editingTactic, setEditingTactic] = useState(null);
   const [savingTactic, setSavingTactic] = useState(false);
@@ -68,7 +74,11 @@ export default function EntrenadorDetallePage() {
         teamId: tacticForm.teamId ? Number(tacticForm.teamId) : null,
       };
       if (editingTactic) {
-        await gestionApi.coaches.tactics.update(coachId, editingTactic.id, body);
+        await gestionApi.coaches.tactics.update(
+          coachId,
+          editingTactic.id,
+          body,
+        );
       } else {
         await gestionApi.coaches.tactics.create(coachId, body);
       }
@@ -102,12 +112,20 @@ export default function EntrenadorDetallePage() {
 
   const uploadDiagram = async (tacticId, file) => {
     if (!coachId) return;
-    await uploadFile(`/gestion/coaches/${coachId}/tactics/${tacticId}/diagram`, file);
+    await uploadFile(
+      `/gestion/coaches/${coachId}/tactics/${tacticId}/diagram`,
+      file,
+    );
     await load();
   };
 
   if (loading) return <p className="gestion-muted">Cargando perfil…</p>;
-  if (!coach) return <p className="gestion-alert gestion-alert--error">Entrenador no encontrado.</p>;
+  if (!coach)
+    return (
+      <p className="gestion-alert gestion-alert--error">
+        Entrenador no encontrado.
+      </p>
+    );
 
   const fullName = `${coach.apellidos}, ${coach.nombre}`;
 
@@ -130,23 +148,55 @@ export default function EntrenadorDetallePage() {
       <div className="gestion-coach-profile">
         <div className="gestion-coach-profile__main">
           {canEditCoach ? (
-            <PhotoUpload
-              label="Foto"
-              currentPath={coach.foto_path}
-              onUpload={async (file) => {
-                const res = await uploadFile(`/gestion/coaches/${coach.id}/photo`, file);
-                setCoach({ ...coach, foto_path: res.foto_path });
-              }}
-            />
+            <div style={{ width: "220px" }}>
+              <DropzoneUpload
+                label="Foto del entrenador"
+                onFileSelect={async (file) => {
+                  if (!file) return;
+                  setUploading(true);
+                  setUploadError("");
+                  try {
+                    const res = await uploadFile(
+                      `/gestion/coaches/${coach.id}/photo`,
+                      file,
+                    );
+                    setCoach({ ...coach, foto_path: res.foto_path });
+                  } catch (err) {
+                    setUploadError(err.message);
+                  } finally {
+                    setUploading(false);
+                  }
+                }}
+              />
+              {uploadError && (
+                <p
+                  style={{
+                    color: "#dc2626",
+                    marginTop: "0.5rem",
+                    fontSize: "0.9rem",
+                  }}
+                >
+                  {uploadError}
+                </p>
+              )}
+            </div>
           ) : coach.foto_path ? (
-            <img src={mediaUrl(coach.foto_path)} alt="" className="gestion-coach-profile__photo" />
+            <img
+              src={mediaUrl(coach.foto_path)}
+              alt=""
+              className="gestion-coach-profile__photo"
+            />
           ) : null}
           <div>
             <h1>{fullName}</h1>
             {isSelfProfile && user?.username && (
-              <p className="gestion-muted">Usuario de acceso: @{user.username}</p>
+              <p className="gestion-muted">
+                Usuario de acceso: @{user.username}
+              </p>
             )}
-            {coach.licencia && <p className="gestion-muted">Licencia: {coach.licencia}</p>}
+            {coach.licencia && (
+              <p className="gestion-muted">Licencia: {coach.licencia}</p>
+            )}
             {coach.bio && <p>{coach.bio}</p>}
             <p className="gestion-muted">
               {coach.telefono && <span>{coach.telefono} · </span>}
@@ -162,7 +212,13 @@ export default function EntrenadorDetallePage() {
           <ul className="gestion-chip-list">
             {coach.teams.map((t) => (
               <li key={t.id} className="gestion-chip">
-                {t.foto_path && <img src={mediaUrl(t.foto_path)} alt="" className="gestion-avatar gestion-avatar--xs" />}
+                {t.foto_path && (
+                  <img
+                    src={mediaUrl(t.foto_path)}
+                    alt=""
+                    className="gestion-avatar gestion-avatar--xs"
+                  />
+                )}
                 <span>
                   {t.nombre} — {t.categoria} ({t.temporada})
                 </span>
@@ -188,16 +244,27 @@ export default function EntrenadorDetallePage() {
                 <span className="gestion-badge">{t.temporada}</span>
               </div>
               {t.formacion && <p>Formación: {t.formacion}</p>}
-              {t.team_nombre && <p className="gestion-muted">Equipo: {t.team_nombre}</p>}
+              {t.team_nombre && (
+                <p className="gestion-muted">Equipo: {t.team_nombre}</p>
+              )}
               {t.descripcion && <p>{t.descripcion}</p>}
               {t.diagrama_path && (
-                <a href={mediaUrl(t.diagrama_path)} target="_blank" rel="noreferrer" className="gestion-tactic-card__diagram">
+                <a
+                  href={mediaUrl(t.diagrama_path)}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="gestion-tactic-card__diagram"
+                >
                   <img src={mediaUrl(t.diagrama_path)} alt="Diagrama táctica" />
                 </a>
               )}
               {canEditTactics && (
                 <div className="gestion-tactic-card__actions">
-                  <button type="button" className="gestion-btn gestion-btn--ghost gestion-btn--sm" onClick={() => startEditTactic(t)}>
+                  <button
+                    type="button"
+                    className="gestion-btn gestion-btn--ghost gestion-btn--sm"
+                    onClick={() => startEditTactic(t)}
+                  >
                     <Pencil size={14} /> Editar
                   </button>
                   <label className="gestion-btn gestion-btn--ghost gestion-btn--sm">
@@ -206,10 +273,17 @@ export default function EntrenadorDetallePage() {
                       type="file"
                       className="sr-only"
                       accept="image/*"
-                      onChange={(e) => e.target.files?.[0] && uploadDiagram(t.id, e.target.files[0])}
+                      onChange={(e) =>
+                        e.target.files?.[0] &&
+                        uploadDiagram(t.id, e.target.files[0])
+                      }
                     />
                   </label>
-                  <button type="button" className="gestion-icon-btn gestion-icon-btn--danger" onClick={() => removeTactic(t.id)}>
+                  <button
+                    type="button"
+                    className="gestion-icon-btn gestion-icon-btn--danger"
+                    onClick={() => removeTactic(t.id)}
+                  >
                     <Trash2 size={14} />
                   </button>
                 </div>
@@ -219,9 +293,14 @@ export default function EntrenadorDetallePage() {
         </ul>
 
         {canEditTactics && (
-          <form className="gestion-form gestion-form--grid gestion-tactic-form" onSubmit={saveTactic}>
+          <form
+            className="gestion-form gestion-form--grid gestion-tactic-form"
+            onSubmit={saveTactic}
+          >
             <p className="gestion-field--full gestion-subtitle">
-              {editingTactic ? "Editar táctica" : (
+              {editingTactic ? (
+                "Editar táctica"
+              ) : (
                 <>
                   <Plus size={16} /> Nueva táctica
                 </>
@@ -229,19 +308,46 @@ export default function EntrenadorDetallePage() {
             </p>
             <label className="gestion-field">
               <span>Título</span>
-              <input className="gestion-input" value={tacticForm.titulo} onChange={(e) => setTacticForm({ ...tacticForm, titulo: e.target.value })} required />
+              <input
+                className="gestion-input"
+                value={tacticForm.titulo}
+                onChange={(e) =>
+                  setTacticForm({ ...tacticForm, titulo: e.target.value })
+                }
+                required
+              />
             </label>
             <label className="gestion-field">
               <span>Temporada</span>
-              <input className="gestion-input" value={tacticForm.temporada} onChange={(e) => setTacticForm({ ...tacticForm, temporada: e.target.value })} required />
+              <input
+                className="gestion-input"
+                value={tacticForm.temporada}
+                onChange={(e) =>
+                  setTacticForm({ ...tacticForm, temporada: e.target.value })
+                }
+                required
+              />
             </label>
             <label className="gestion-field">
               <span>Formación</span>
-              <input className="gestion-input" placeholder="4-2-3-1" value={tacticForm.formacion} onChange={(e) => setTacticForm({ ...tacticForm, formacion: e.target.value })} />
+              <input
+                className="gestion-input"
+                placeholder="4-2-3-1"
+                value={tacticForm.formacion}
+                onChange={(e) =>
+                  setTacticForm({ ...tacticForm, formacion: e.target.value })
+                }
+              />
             </label>
             <label className="gestion-field">
               <span>Equipo (opcional)</span>
-              <select className="gestion-input gestion-select" value={tacticForm.teamId} onChange={(e) => setTacticForm({ ...tacticForm, teamId: e.target.value })}>
+              <select
+                className="gestion-input gestion-select"
+                value={tacticForm.teamId}
+                onChange={(e) =>
+                  setTacticForm({ ...tacticForm, teamId: e.target.value })
+                }
+              >
                 <option value="">General</option>
                 {teams.map((t) => (
                   <option key={t.id} value={t.id}>
@@ -252,11 +358,25 @@ export default function EntrenadorDetallePage() {
             </label>
             <label className="gestion-field gestion-field--full">
               <span>Descripción</span>
-              <textarea className="gestion-input gestion-textarea" rows={3} value={tacticForm.descripcion} onChange={(e) => setTacticForm({ ...tacticForm, descripcion: e.target.value })} />
+              <textarea
+                className="gestion-input gestion-textarea"
+                rows={3}
+                value={tacticForm.descripcion}
+                onChange={(e) =>
+                  setTacticForm({ ...tacticForm, descripcion: e.target.value })
+                }
+              />
             </label>
             <label className="gestion-field gestion-field--full">
               <span>Notas</span>
-              <textarea className="gestion-input gestion-textarea" rows={2} value={tacticForm.notas} onChange={(e) => setTacticForm({ ...tacticForm, notas: e.target.value })} />
+              <textarea
+                className="gestion-input gestion-textarea"
+                rows={2}
+                value={tacticForm.notas}
+                onChange={(e) =>
+                  setTacticForm({ ...tacticForm, notas: e.target.value })
+                }
+              />
             </label>
             <div className="gestion-form__footer gestion-field--full">
               {editingTactic && (
@@ -271,7 +391,11 @@ export default function EntrenadorDetallePage() {
                   Cancelar
                 </button>
               )}
-              <button type="submit" className="gestion-btn gestion-btn--primary" disabled={savingTactic}>
+              <button
+                type="submit"
+                className="gestion-btn gestion-btn--primary"
+                disabled={savingTactic}
+              >
                 {savingTactic ? "Guardando…" : "Guardar táctica"}
               </button>
             </div>

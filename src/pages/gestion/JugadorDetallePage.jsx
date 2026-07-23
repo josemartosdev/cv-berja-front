@@ -11,7 +11,7 @@ import {
   playerFullName,
 } from "../../lib/gestionHelpers";
 import { mediaUrl } from "../../lib/mediaUrl";
-import PhotoUpload from "../../components/gestion/PhotoUpload";
+import DropzoneUpload from "../../components/DropzoneUpload";
 import PlayerMedicalPanel from "../../components/gestion/PlayerMedicalPanel";
 import GestionAlert from "../../components/gestion/GestionAlert";
 import PlayerAccessPanel from "../../components/gestion/PlayerAccessPanel";
@@ -36,6 +36,8 @@ export default function JugadorDetallePage() {
   const [teams, setTeams] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [uploadError, setUploadError] = useState("");
+  const [uploading, setUploading] = useState(false);
   const [tab, setTab] = useState("datos");
   const [form, setForm] = useState(emptyForm);
   const [fotoPath, setFotoPath] = useState(null);
@@ -100,8 +102,14 @@ export default function JugadorDetallePage() {
     }
   };
 
-  if (loading) return <p className="gestion-muted">Cargando ficha del jugador…</p>;
-  if (!player) return <p className="gestion-alert gestion-alert--error">Jugador no encontrado.</p>;
+  if (loading)
+    return <p className="gestion-muted">Cargando ficha del jugador…</p>;
+  if (!player)
+    return (
+      <p className="gestion-alert gestion-alert--error">
+        Jugador no encontrado.
+      </p>
+    );
 
   const canChangeTeam = canManageTeams(user?.role);
 
@@ -117,7 +125,11 @@ export default function JugadorDetallePage() {
       <div className="gestion-player-profile">
         <div className="gestion-player-profile__hero">
           {fotoPath ? (
-            <img src={mediaUrl(fotoPath)} alt="" className="gestion-player-profile__photo" />
+            <img
+              src={mediaUrl(fotoPath)}
+              alt=""
+              className="gestion-player-profile__photo"
+            />
           ) : (
             <span className="gestion-avatar gestion-avatar--empty gestion-player-profile__photo" />
           )}
@@ -133,7 +145,9 @@ export default function JugadorDetallePage() {
               )}
               {player.coach_nombre && <> · Entrenador: {player.coach_nombre}</>}
             </p>
-            <span className={`gestion-badge${player.activo ? "" : " gestion-badge--muted"}`}>
+            <span
+              className={`gestion-badge${player.activo ? "" : " gestion-badge--muted"}`}
+            >
               {player.activo ? "Activo" : "Baja"}
             </span>
           </div>
@@ -148,22 +162,40 @@ export default function JugadorDetallePage() {
             className={`gestion-tabs__btn${tab === t ? " gestion-tabs__btn--active" : ""}`}
             onClick={() => setTab(t)}
           >
-            {t === "datos" ? "Datos" : t === "medico" ? "Médico" : t === "foto" ? "Foto" : "Acceso portal"}
+            {t === "datos"
+              ? "Datos"
+              : t === "medico"
+                ? "Médico"
+                : t === "foto"
+                  ? "Foto"
+                  : "Acceso portal"}
           </button>
         ))}
       </div>
 
       <div className="gestion-panel">
-        {tab === "datos" && (
-          canEdit ? (
+        {tab === "datos" &&
+          (canEdit ? (
             <form className="gestion-form gestion-form--grid" onSubmit={save}>
               <label className="gestion-field">
                 <span>Nombre</span>
-                <input className="gestion-input" value={form.nombre} onChange={(e) => setForm({ ...form, nombre: e.target.value })} required />
+                <input
+                  className="gestion-input"
+                  value={form.nombre}
+                  onChange={(e) => setForm({ ...form, nombre: e.target.value })}
+                  required
+                />
               </label>
               <label className="gestion-field">
                 <span>Apellidos</span>
-                <input className="gestion-input" value={form.apellidos} onChange={(e) => setForm({ ...form, apellidos: e.target.value })} required />
+                <input
+                  className="gestion-input"
+                  value={form.apellidos}
+                  onChange={(e) =>
+                    setForm({ ...form, apellidos: e.target.value })
+                  }
+                  required
+                />
               </label>
               <label className="gestion-field">
                 <span>Equipo</span>
@@ -181,67 +213,164 @@ export default function JugadorDetallePage() {
                   ))}
                 </select>
                 {!canChangeTeam && (
-                  <span className="gestion-field-hint">Solo administración puede cambiar de equipo.</span>
+                  <span className="gestion-field-hint">
+                    Solo administración puede cambiar de equipo.
+                  </span>
                 )}
               </label>
               <label className="gestion-field">
                 <span>DNI / NIE</span>
-                <input className="gestion-input" value={form.dni} onChange={(e) => setForm({ ...form, dni: e.target.value })} />
+                <input
+                  className="gestion-input"
+                  value={form.dni}
+                  onChange={(e) => setForm({ ...form, dni: e.target.value })}
+                />
               </label>
               <label className="gestion-field">
                 <span>Fecha de nacimiento</span>
-                <input type="date" className="gestion-input" value={form.fechaNacimiento} onChange={(e) => setForm({ ...form, fechaNacimiento: e.target.value })} />
+                <input
+                  type="date"
+                  className="gestion-input"
+                  value={form.fechaNacimiento}
+                  onChange={(e) =>
+                    setForm({ ...form, fechaNacimiento: e.target.value })
+                  }
+                />
               </label>
               <label className="gestion-field">
                 <span>Teléfono</span>
-                <input className="gestion-input" value={form.telefono} onChange={(e) => setForm({ ...form, telefono: e.target.value })} />
+                <input
+                  className="gestion-input"
+                  value={form.telefono}
+                  onChange={(e) =>
+                    setForm({ ...form, telefono: e.target.value })
+                  }
+                />
               </label>
               <label className="gestion-field">
                 <span>Email</span>
-                <input type="email" className="gestion-input" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+                <input
+                  type="email"
+                  className="gestion-input"
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                />
               </label>
               <label className="gestion-field gestion-field--full">
                 <span>Notas</span>
-                <textarea className="gestion-input gestion-textarea" rows={3} value={form.notas} onChange={(e) => setForm({ ...form, notas: e.target.value })} />
+                <textarea
+                  className="gestion-input gestion-textarea"
+                  rows={3}
+                  value={form.notas}
+                  onChange={(e) => setForm({ ...form, notas: e.target.value })}
+                />
               </label>
               <label className="gestion-field gestion-field--check gestion-field--full">
-                <input type="checkbox" checked={form.activo} onChange={(e) => setForm({ ...form, activo: e.target.checked })} />
+                <input
+                  type="checkbox"
+                  checked={form.activo}
+                  onChange={(e) =>
+                    setForm({ ...form, activo: e.target.checked })
+                  }
+                />
                 <span>Jugador activo</span>
               </label>
               <div className="gestion-form__footer gestion-field--full">
-                <button type="submit" className="gestion-btn gestion-btn--primary" disabled={saving}>
+                <button
+                  type="submit"
+                  className="gestion-btn gestion-btn--primary"
+                  disabled={saving}
+                >
                   {saving ? "Guardando…" : "Guardar datos"}
                 </button>
               </div>
             </form>
           ) : (
             <dl className="gestion-dl">
-              <div><dt>DNI</dt><dd>{player.dni || "—"}</dd></div>
-              <div><dt>Nacimiento</dt><dd>{formatDate(player.fecha_nacimiento)}</dd></div>
-              <div><dt>Teléfono</dt><dd>{player.telefono || "—"}</dd></div>
-              <div><dt>Email</dt><dd>{player.email || "—"}</dd></div>
-              <div><dt>Notas</dt><dd>{player.notas || "—"}</dd></div>
+              <div>
+                <dt>DNI</dt>
+                <dd>{player.dni || "—"}</dd>
+              </div>
+              <div>
+                <dt>Nacimiento</dt>
+                <dd>{formatDate(player.fecha_nacimiento)}</dd>
+              </div>
+              <div>
+                <dt>Teléfono</dt>
+                <dd>{player.telefono || "—"}</dd>
+              </div>
+              <div>
+                <dt>Email</dt>
+                <dd>{player.email || "—"}</dd>
+              </div>
+              <div>
+                <dt>Notas</dt>
+                <dd>{player.notas || "—"}</dd>
+              </div>
             </dl>
-          )
+          ))}
+
+        {tab === "medico" && (
+          <PlayerMedicalPanel playerId={player.id} canEdit={canEdit} />
         )}
 
-        {tab === "medico" && <PlayerMedicalPanel playerId={player.id} canEdit={canEdit} />}
-
         {tab === "foto" && (
-          <PhotoUpload
-            label="Foto del jugador"
-            currentPath={fotoPath}
-            disabled={!canEdit}
-            onUpload={async (file) => {
-              const res = await uploadFile(`/gestion/players/${id}/photo`, file);
-              setFotoPath(res.foto_path);
-              await load();
-            }}
-          />
+          <div style={{ maxWidth: 600 }}>
+            <h3 style={{ marginBottom: "1rem" }}>Foto del jugador</h3>
+            {fotoPath && (
+              <div style={{ marginBottom: "1rem" }}>
+                <img
+                  src={mediaUrl(fotoPath)}
+                  alt="Foto actual"
+                  style={{
+                    maxWidth: "200px",
+                    maxHeight: "200px",
+                    borderRadius: 8,
+                    objectFit: "cover",
+                  }}
+                />
+              </div>
+            )}
+            {canEdit ? (
+              <DropzoneUpload
+                label="Arrastra una foto o haz clic para seleccionar"
+                onFileSelect={async (file) => {
+                  if (!file) return;
+                  setUploading(true);
+                  setUploadError("");
+                  try {
+                    const res = await uploadFile(
+                      `/gestion/players/${id}/photo`,
+                      file,
+                    );
+                    setFotoPath(res.foto_path);
+                    await load();
+                  } catch (err) {
+                    setUploadError(err.message);
+                  } finally {
+                    setUploading(false);
+                  }
+                }}
+              />
+            ) : (
+              <p style={{ color: "#888" }}>
+                No tienes permisos para cambiar la foto.
+              </p>
+            )}
+            {uploadError && (
+              <p style={{ color: "#dc2626", marginTop: "0.5rem" }}>
+                {uploadError}
+              </p>
+            )}
+          </div>
         )}
 
         {tab === "acceso" && (
-          <PlayerAccessPanel player={player} canEdit={canEdit} onUpdated={load} />
+          <PlayerAccessPanel
+            player={player}
+            canEdit={canEdit}
+            onUpdated={load}
+          />
         )}
       </div>
     </div>

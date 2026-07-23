@@ -5,10 +5,10 @@ import ResultadosCarousel from "./ResultadosCarousel";
 import RedesSociales from "./RedesSociales";
 import { postsApi } from "../../api/postsApi";
 import { formatPostDate, resolvePostImageUrl } from "../../lib/posts";
-import { publicPostsFallback } from "../../data/publicPostsFallback";
 
 function Inicio() {
   const [latestPosts, setLatestPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const heroImage =
     "https://lh3.googleusercontent.com/aida-public/AB6AXuCRf6I1LpKIhKvyEsHqPdHdefyKtGD2eR_6HRMUUQ5n4LgcTuhaGr55W4fDErGdYEc604gscwDERZFQTRHr0mLulZYNpsp-ZbHLd1udP-PMUdCp4H58HNVmIu_UFBHr7xSZ0U20p3745nQDqeer0wzkBlgshpcb_C5TpOM3qrz92zF0f0sm94aKbNCZreQBl5BEXUdX072flGD6GYf1F1Ix9RwkxOnVo7pbY5IgDVSmqoD2unrQ1X2eKQ";
 
@@ -20,8 +20,15 @@ function Inicio() {
         if (active) {
           setLatestPosts(data.slice(0, 3));
         }
-      } catch {
-        // Fallback silencioso a noticias locales mientras se despliega backend.
+      } catch (err) {
+        console.error("Error cargando posts:", err);
+        if (active) {
+          setLatestPosts([]);
+        }
+      } finally {
+        if (active) {
+          setLoading(false);
+        }
       }
     })();
     return () => {
@@ -29,23 +36,14 @@ function Inicio() {
     };
   }, []);
 
-  const homeNews = latestPosts.length
-    ? latestPosts.map((post) => ({
-        id: post.id,
-        tag: post.category || "Actualidad",
-        date: formatPostDate(post.publishedAt) || "Publicacion reciente",
-        title: post.title,
-        text: post.excerpt || post.content?.slice(0, 160) || "",
-        image: resolvePostImageUrl(post.imageUrl),
-      }))
-    : publicPostsFallback.map((post) => ({
-        id: post.id,
-        tag: post.category || "Actualidad",
-        date: formatPostDate(post.publishedAt) || "Publicacion reciente",
-        title: post.title,
-        text: post.excerpt || post.content?.slice(0, 160) || "",
-        image: resolvePostImageUrl(post.imageUrl),
-      }));
+  const homeNews = latestPosts.map((post) => ({
+    id: post.id,
+    tag: post.category || "Actualidad",
+    date: formatPostDate(post.publishedAt) || "Publicación reciente",
+    title: post.title,
+    text: post.excerpt || post.content?.slice(0, 160) || "",
+    image: resolvePostImageUrl(post.imageUrl),
+  }));
 
   const fallbackNewsImage =
     "https://lh3.googleusercontent.com/aida-public/AB6AXuBDE1haaerqpkwW7XgrNkUiGgWog9TfWGLiZrGP28d-XQ-5qXaozWdyMVG7R633a0sHzNNf9pCm4bNdalbgA6ZAKqTqY1MBod_4_ruhnUL6rpCxghon742FBi1h4YmmhzB8_bMaWHovlGW9JmP0hd3I5INdmJj6oSrENvhQqWZxw57b3SVdsdzd5rOZ7TLucUMjtieTB_HIv86TXLd7Y_9sVHM2o1o5ASAsv8ffi8RIGvmqC3KGbrv-AA";
@@ -141,26 +139,55 @@ function Inicio() {
         </header>
 
         <div className="home-dashboard__news-grid">
-          {homeNews.map((item) => (
-            <Link
-              key={item.id}
-              to={`/posts/${item.id}`}
-              className="home-dashboard__news-link"
+          {loading ? (
+            <p
+              style={{
+                gridColumn: "1 / -1",
+                textAlign: "center",
+                color: "#888",
+                padding: "2rem",
+              }}
             >
-              <article>
-                <div className="home-dashboard__news-media">
-                  <img src={item.image || fallbackNewsImage} alt={item.title} />
-                  <span>{item.tag}</span>
-                </div>
-                <div className="home-dashboard__news-copy">
-                  <small>{item.date}</small>
-                  <h3>{item.title}</h3>
-                  <p>{item.text}</p>
-                  <span className="home-dashboard__news-cta">Leer noticia</span>
-                </div>
-              </article>
-            </Link>
-          ))}
+              Cargando noticias…
+            </p>
+          ) : homeNews.length === 0 ? (
+            <p
+              style={{
+                gridColumn: "1 / -1",
+                textAlign: "center",
+                color: "#888",
+                padding: "2rem",
+              }}
+            >
+              Aún no hay noticias. Vuelve pronto.
+            </p>
+          ) : (
+            homeNews.map((item) => (
+              <Link
+                key={item.id}
+                to={`/posts/${item.id}`}
+                className="home-dashboard__news-link"
+              >
+                <article>
+                  <div className="home-dashboard__news-media">
+                    <img
+                      src={item.image || fallbackNewsImage}
+                      alt={item.title}
+                    />
+                    <span>{item.tag}</span>
+                  </div>
+                  <div className="home-dashboard__news-copy">
+                    <small>{item.date}</small>
+                    <h3>{item.title}</h3>
+                    <p>{item.text}</p>
+                    <span className="home-dashboard__news-cta">
+                      Leer noticia
+                    </span>
+                  </div>
+                </article>
+              </Link>
+            ))
+          )}
         </div>
       </section>
 
