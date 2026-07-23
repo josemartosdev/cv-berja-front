@@ -106,8 +106,24 @@ export const postsApi = {
   },
 
   async uploadImage(id, file) {
+    if (!file) {
+      throw new Error("No hay archivo para subir");
+    }
+
+    console.log(
+      "Subiendo archivo:",
+      file.name,
+      "Tamaño:",
+      file.size,
+      "Tipo:",
+      file.type,
+    );
+
     const formData = new FormData();
     formData.append("file", file);
+
+    // Debug: verificar qué está en el FormData
+    console.log("FormData entries:", [...formData.entries()]);
 
     const data = await requestWithFallback(
       ADMIN_POSTS_ROUTES.map((route) => `${route}/${id}/image`),
@@ -116,6 +132,7 @@ export const postsApi = {
         body: formData,
       },
     );
+    console.log("Respuesta del servidor:", data);
     return data;
   },
 
