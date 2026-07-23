@@ -4,7 +4,7 @@ import { getAuthToken } from "./client";
 
 export const galeriaApi = {
   /** Lista pública de todas las fotos (galería + jugadores + posts) */
-  listPublic: () => apiFetch("/galeria", { auth: false }),
+  listPublic: () => apiFetch("/galeria"),
 
   /** Sube una foto nueva a la galería (requiere auth) */
   upload: async (file, titulo = "", tipo = "galeria", displayType = "web") => {

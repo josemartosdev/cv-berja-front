@@ -44,7 +44,6 @@ export const postsApi = {
   async getPublic(id) {
     const data = await requestWithFallback(
       PUBLIC_DETAIL_ROUTES.map((route) => `${route}/${id}`),
-      { auth: false },
     );
     return normalizePost(data);
   },
@@ -58,7 +57,6 @@ export const postsApi = {
     const query = buildQuery(params);
     const data = await requestWithFallback(
       PUBLIC_LIST_ROUTES.map((route) => `${route}${query}`),
-      { auth: false },
     );
     return normalizePostsResponse(data)
       .filter((post) => post.published)
