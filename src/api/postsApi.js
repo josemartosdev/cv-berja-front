@@ -8,6 +8,15 @@ async function requestWithFallback(candidates, options = {}) {
       return await apiFetch(path, options);
     } catch (err) {
       lastError = err;
+      // Reintentar sin autenticación si falla con 401
+      if (err?.status === 401 && options.auth !== false) {
+        try {
+          console.log(`Reintentando ${path} sin autenticación...`);
+          return await apiFetch(path, { ...options, auth: false });
+        } catch (retryErr) {
+          lastError = retryErr;
+        }
+      }
       if (![404, 405].includes(err?.status)) {
         throw err;
       }

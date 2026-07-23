@@ -21,6 +21,7 @@ export async function apiFetch(path, options = {}) {
     ...options.headers,
   };
 
+  // Solo agregar token si options.auth !== false y tenemos token
   if (options.auth !== false && token) {
     headers.Authorization = `Bearer ${token}`;
   }
@@ -45,12 +46,23 @@ export async function apiFetch(path, options = {}) {
   }
 
   if (!res.ok) {
-    const fallback =
-      res.status === 401
-        ? "No autenticado. Vuelve a iniciar sesión."
-        : res.status >= 500
-          ? "Error del servidor. Comprueba la API y MySQL."
-          : "Error en la petición";
+    // Determinar el mensaje de error más apropiado
+    let fallback = "Error en la petición";
+
+    if (res.status === 401) {
+      // Si es un endpoint público (auth: false), el 401 significa que el endpoint no es público
+      fallback =
+        options.auth === false
+          ? "Endpoint no disponible públicamente. Inicia sesión para acceder."
+          : "No autenticado. Vuelve a iniciar sesión.";
+    } else if (res.status === 403) {
+      fallback = "No tienes permisos para acceder a esto.";
+    } else if (res.status === 404) {
+      fallback = "Recurso no encontrado.";
+    } else if (res.status >= 500) {
+      fallback = "Error del servidor. Intenta más tarde.";
+    }
+
     const err = new Error(data.error || data.message || fallback);
     err.status = res.status;
     throw err;

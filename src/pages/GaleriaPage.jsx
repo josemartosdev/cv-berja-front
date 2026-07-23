@@ -263,59 +263,50 @@ export default function GaleriaPage() {
               }}
             >
               {fotosPage.map((foto, i) => (
-              <div
-                key={i}
-                onClick={() => setLightbox(foto)}
-                style={{
-                  cursor: "pointer",
-                  borderRadius: 8,
-                  overflow: "hidden",
-                  position: "relative",
-                  aspectRatio: "1 / 1",
-                  background: "#f3f4f6",
-                  boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                  transition: "transform 0.2s",
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.transform = "scale(1.02)")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.transform = "scale(1)")
-                }
-              >
-                <img
-                  src={foto.url}
-                  alt={foto.titulo || ""}
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                  loading="lazy"
-                />
-                {/* Badges de tipo */}
                 <div
+                  key={i}
+                  onClick={() => setLightbox(foto)}
                   style={{
-                    position: "absolute",
-                    top: 8,
-                    left: 8,
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "4px",
+                    cursor: "pointer",
+                    borderRadius: 8,
+                    overflow: "hidden",
+                    position: "relative",
+                    aspectRatio: "1 / 1",
+                    background: "#f3f4f6",
+                    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                    transition: "transform 0.2s",
                   }}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.transform = "scale(1.02)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.transform = "scale(1)")
+                  }
                 >
-                  <span
+                  <img
+                    src={foto.url}
+                    alt={foto.titulo || ""}
                     style={{
-                      background: TIPO_COLOR[foto.tipo] || "#888",
-                      color: "#fff",
-                      fontSize: 10,
-                      padding: "2px 6px",
-                      borderRadius: 10,
-                      fontWeight: 600,
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                    loading="lazy"
+                  />
+                  {/* Badges de tipo */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 8,
+                      left: 8,
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "4px",
                     }}
                   >
-                    {TIPO_LABEL[foto.tipo] || foto.tipo}
-                  </span>
-                  {foto.displayType === "cabecera" && (
                     <span
                       style={{
-                        background: "#f59e0b",
+                        background: TIPO_COLOR[foto.tipo] || "#888",
                         color: "#fff",
                         fontSize: 10,
                         padding: "2px 6px",
@@ -323,31 +314,44 @@ export default function GaleriaPage() {
                         fontWeight: 600,
                       }}
                     >
-                      Cabecera
+                      {TIPO_LABEL[foto.tipo] || foto.tipo}
                     </span>
+                    {foto.displayType === "cabecera" && (
+                      <span
+                        style={{
+                          background: "#f59e0b",
+                          color: "#fff",
+                          fontSize: 10,
+                          padding: "2px 6px",
+                          borderRadius: 10,
+                          fontWeight: 600,
+                        }}
+                      >
+                        Cabecera
+                      </span>
+                    )}
+                  </div>
+                  {/* Overlay con título */}
+                  {foto.titulo && (
+                    <div
+                      style={{
+                        position: "absolute",
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        background:
+                          "linear-gradient(to top, rgba(0,0,0,0.7), transparent)",
+                        color: "#fff",
+                        padding: "1rem 0.75rem 0.5rem",
+                        fontSize: "0.85rem",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {foto.titulo}
+                    </div>
                   )}
                 </div>
-                {/* Overlay con título */}
-                {foto.titulo && (
-                  <div
-                    style={{
-                      position: "absolute",
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      background:
-                        "linear-gradient(to top, rgba(0,0,0,0.7), transparent)",
-                      color: "#fff",
-                      padding: "1rem 0.75rem 0.5rem",
-                      fontSize: "0.85rem",
-                      fontWeight: 600,
-                    }}
-                  >
-                    {foto.titulo}
-                  </div>
-                )}
-              </div>
-            ))}
+              ))}
             </div>
 
             {/* Paginación */}
@@ -373,19 +377,16 @@ export default function GaleriaPage() {
                           paginaActual === num
                             ? "2px solid #4f46e5"
                             : "1px solid #ddd",
-                        background:
-                          paginaActual === num ? "#4f46e5" : "#fff",
-                        color:
-                          paginaActual === num ? "#fff" : "#333",
+                        background: paginaActual === num ? "#4f46e5" : "#fff",
+                        color: paginaActual === num ? "#fff" : "#333",
                         cursor: "pointer",
-                        fontWeight:
-                          paginaActual === num ? 600 : 400,
+                        fontWeight: paginaActual === num ? 600 : 400,
                         transition: "all 0.2s",
                       }}
                     >
                       {num}
                     </button>
-                  )
+                  ),
                 )}
               </div>
             )}

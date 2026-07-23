@@ -16,9 +16,10 @@ export default function PostsPage() {
     setLoading(true);
     setError("");
     try {
-      const data = await postsApi.listPublic({ limit: 3 });
-      setPosts(data.slice(0, 3));
+      const data = await postsApi.listPublic({ limit: 999 });
+      setPosts(data);
     } catch (err) {
+      console.error("Error cargando posts:", err);
       setError(err.message || "Error al cargar los posts");
       setPosts([]);
     } finally {
@@ -43,7 +44,20 @@ export default function PostsPage() {
         </div>
       </section>
 
-      {error && <p className="posts-state posts-state--error">{error}</p>}
+      {error && (
+        <div
+          style={{
+            padding: "1rem",
+            background: "#fee2e2",
+            color: "#991b1b",
+            borderRadius: 6,
+            marginBottom: "1.5rem",
+            fontSize: "0.95rem",
+          }}
+        >
+          ⚠️ {error}
+        </div>
+      )}
 
       {loading ? (
         <p className="posts-state">Cargando posts…</p>
