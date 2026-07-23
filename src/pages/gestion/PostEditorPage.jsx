@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, X } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import GestionPageHeader from "../../components/gestion/GestionPageHeader";
 import GestionAlert from "../../components/gestion/GestionAlert";
-import DropzoneUpload from "../../components/DropzoneUpload";
 import { postsApi } from "../../api/postsApi";
 import { buildPostPayload } from "../../lib/posts";
 
@@ -49,7 +48,6 @@ export default function PostEditorPage() {
             : "",
           published: !!post.published,
           categoryId: post.categoryId ? String(post.categoryId) : "",
-          imagenPath: post.imageUrl || "",
         });
       }
     } catch (err) {
@@ -202,15 +200,54 @@ export default function PostEditorPage() {
               >
                 Foto del post
               </label>
-              <DropzoneUpload
+              <input
+                type="file"
                 accept="image/*"
-                label="Arrastra una foto o haz clic para seleccionar"
-                onFileSelect={(file) => {
-                  setPendingImageFile(file);
-                  // El preview se genera automáticamente en DropzoneUpload
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    setPendingImageFile(file);
+                  }
+                }}
+                style={{
+                  display: "block",
+                  width: "100%",
+                  padding: "0.75rem",
+                  border: "1px solid #d1d5db",
+                  borderRadius: 6,
+                  fontSize: "0.95rem",
+                  boxSizing: "border-box",
+                  cursor: "pointer",
                 }}
               />
             </div>
+
+            {/* Mostrar preview de imagen nueva seleccionada */}
+            {pendingImageFile && (
+              <div className="gestion-field gestion-field--full">
+                <p
+                  style={{
+                    fontSize: "0.9rem",
+                    color: "#4f46e5",
+                    marginBottom: "0.5rem",
+                    fontWeight: 500,
+                  }}
+                >
+                  ✓ Nueva foto seleccionada: {pendingImageFile.name}
+                </p>
+                <img
+                  src={URL.createObjectURL(pendingImageFile)}
+                  alt="Preview"
+                  style={{
+                    maxWidth: "300px",
+                    maxHeight: "200px",
+                    borderRadius: 6,
+                    objectFit: "cover",
+                    border: "2px solid #4f46e5",
+                  }}
+                />
+              </div>
+            )}
 
             {/* Mostrar foto actual si existe y no hay nueva seleccionada */}
             {form.imageUrl && !pendingImageFile && (
@@ -228,8 +265,8 @@ export default function PostEditorPage() {
                   src={form.imageUrl}
                   alt="Current"
                   style={{
-                    maxWidth: "200px",
-                    maxHeight: "150px",
+                    maxWidth: "300px",
+                    maxHeight: "200px",
                     borderRadius: 6,
                     objectFit: "cover",
                   }}
