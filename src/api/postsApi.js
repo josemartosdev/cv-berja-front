@@ -125,7 +125,9 @@ export const postsApi = {
     // Debug: verificar qué está en el FormData
     const entries = [];
     for (const [key, value] of formData.entries()) {
-      entries.push(`${key}: ${value instanceof File ? `File(${value.name}, ${value.size} bytes)` : value}`);
+      entries.push(
+        `${key}: ${value instanceof File ? `File(${value.name}, ${value.size} bytes)` : value}`,
+      );
     }
     console.log("📦 FormData entries:", entries.join(", "));
 

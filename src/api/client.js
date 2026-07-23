@@ -51,6 +51,10 @@ export async function apiFetch(path, options = {}) {
   }
 
   if (!res.ok) {
+    console.error(`❌ HTTP ${res.status} @ ${apiUrl(path)}`);
+    console.error("📝 Response body:", text);
+    console.error("📦 Parsed data:", data);
+
     // Determinar el mensaje de error más apropiado
     let fallback = "Error en la petición";
 
