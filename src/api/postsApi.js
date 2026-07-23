@@ -120,6 +120,29 @@ export const postsApi = {
     return data;
   },
 
+  async createWithImage(body, file) {
+    // Crear post sin imagen primero
+    const created = await this.create(body);
+    
+    // Si hay archivo, subirlo y actualizar
+    if (file && created.id) {
+      try {
+        const imageResult = await this.uploadImage(created.id, file);
+        // Retornar el post con la imagen actualizada
+        return {
+          ...created,
+          imageUrl: imageResult.imagen_path || imageResult.url,
+        };
+      } catch (err) {
+        console.warn("Error al subir imagen del post:", err);
+        // Retornar el post aunque haya fallado la imagen
+        return created;
+      }
+    }
+    
+    return created;
+  },
+
   categories: {
     async list() {
       const data = await requestWithFallback(CATEGORY_ROUTES);

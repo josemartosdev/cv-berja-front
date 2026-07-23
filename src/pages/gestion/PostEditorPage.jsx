@@ -5,9 +5,7 @@ import GestionPageHeader from "../../components/gestion/GestionPageHeader";
 import GestionAlert from "../../components/gestion/GestionAlert";
 import PhotoUploadForm from "../../components/PhotoUploadForm";
 import { postsApi } from "../../api/postsApi";
-import { galeriaApi } from "../../api/galeriaApi";
 import { buildPostPayload } from "../../lib/posts";
-import { uploadFile } from "../../api/upload";
 
 const emptyForm = {
   title: "",
@@ -31,6 +29,8 @@ export default function PostEditorPage() {
   const [uploadError, setUploadError] = useState("");
   const [categories, setCategories] = useState([]);
   const [form, setForm] = useState(emptyForm);
+  const [pendingImageFile, setPendingImageFile] = useState(null);
+  const [pendingImagePreview, setPendingImagePreview] = useState(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -71,11 +71,38 @@ export default function PostEditorPage() {
     setError("");
     try {
       const body = buildPostPayload(form);
+      let result;
+
       if (isEditing) {
+        // Actualizar post
         await postsApi.update(id, body);
+        
+        // Si hay archivo de imagen pendiente, subirlo
+        if (pendingImageFile) {
+          try {
+            const imageResult = await postsApi.uploadImage(id, pendingImageFile);
+            setForm({
+              ...form,
+              imageUrl: imageResult.imagen_path || imageResult.url,
+            });
+            setPendingImageFile(null);
+            setPendingImagePreview(null);
+          } catch (imgErr) {
+            console.warn("Error al subir imagen:", imgErr);
+            // No es error fatal, continuamos
+          }
+        }
       } else {
-        await postsApi.create(body);
+        // Crear post (con imagen si existe)
+        result = await postsApi.createWithImage(body, pendingImageFile);
+        if (result?.imageUrl) {
+          setForm({
+            ...form,
+            imageUrl: result.imageUrl,
+          });
+        }
       }
+
       navigate("/gestion/posts");
     } catch (err) {
       setError(err.message);
@@ -169,39 +196,59 @@ export default function PostEditorPage() {
             </label>
 
             <div className="gestion-field gestion-field--full">
-              {isEditing ? (
-                <PhotoUploadForm
-                  title="Foto del post"
-                  onSubmit={async ({ file, displayType }) => {
-                    setUploading(true);
-                    setUploadError("");
-                    try {
-                      const result = await postsApi.uploadImage(id, file);
-                      setForm({
-                        ...form,
-                        imageUrl:
-                          result.imagen_path || result.imageUrl || result.url,
-                      });
-                    } catch (err) {
-                      setUploadError(err.message);
-                      throw err;
-                    } finally {
-                      setUploading(false);
-                    }
-                  }}
-                  loading={uploading}
-                  error={uploadError}
-                  showTitle={false}
-                  showDisplay={false}
-                  buttonText="Subir foto del post"
-                />
-              ) : (
-                <p style={{ color: "#999", fontSize: "0.9rem" }}>
-                  💡 Crea el post primero para poder subir una foto
-                </p>
+              <PhotoUploadForm
+                title="Foto del post"
+                onSubmit={async ({ file }) => {
+                  setUploadError("");
+                  try {
+                    setPendingImageFile(file);
+                    // Crear preview local
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                      setPendingImagePreview(e.target.result);
+                    };
+                    reader.readAsDataURL(file);
+                  } catch (err) {
+                    setUploadError(err.message);
+                    throw err;
+                  }
+                }}
+                loading={uploading}
+                error={uploadError}
+                showTitle={false}
+                showDisplay={false}
+                buttonText={isEditing ? "Cambiar foto del post" : "Seleccionar foto del post"}
+              />
+
+              {/* Mostrar preview de nueva imagen pendiente */}
+              {pendingImagePreview && (
+                <div style={{ marginBottom: "1rem", marginTop: "1rem" }}>
+                  <p
+                    style={{
+                      fontSize: "0.9rem",
+                      color: "#666",
+                      marginBottom: "0.5rem",
+                    }}
+                  >
+                    Nueva foto (se subirá al {isEditing ? "actualizar" : "crear"}):
+                  </p>
+                  <img
+                    src={pendingImagePreview}
+                    alt="New Preview"
+                    style={{
+                      maxWidth: "200px",
+                      maxHeight: "150px",
+                      borderRadius: 6,
+                      objectFit: "cover",
+                      border: "2px solid #4f46e5",
+                    }}
+                  />
+                </div>
               )}
-              {form.imageUrl && (
-                <div style={{ marginBottom: "1rem" }}>
+
+              {/* Mostrar foto actual (si está editando) */}
+              {form.imageUrl && !pendingImagePreview && (
+                <div style={{ marginBottom: "1rem", marginTop: "1rem" }}>
                   <p
                     style={{
                       fontSize: "0.9rem",
@@ -213,7 +260,7 @@ export default function PostEditorPage() {
                   </p>
                   <img
                     src={form.imageUrl}
-                    alt="Preview"
+                    alt="Current"
                     style={{
                       maxWidth: "200px",
                       maxHeight: "150px",
