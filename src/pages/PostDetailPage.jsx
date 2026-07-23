@@ -5,9 +5,6 @@ import { postsApi } from "../api/postsApi";
 import { formatPostDate, resolvePostImageUrl } from "../lib/posts";
 import { publicPostsFallback } from "../data/publicPostsFallback";
 
-const fallbackNewsImage =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuBDE1haaerqpkwW7XgrNkUiGgWog9TfWGLiZrGP28d-XQ-5qXaozWdyMVG7R633a0sHzNNf9pCm4bNdalbgA6ZAKqTqY1MBod_4_ruhnUL6rpCxghon742FBi1h4YmmhzB8_bMaWHovlGW9JmP0hd3I5INdmJj6oSrENvhQqWZxw57b3SVdsdzd5rOZ7TLucUMjtieTB_HIv86TXLd7Y_9sVHM2o1o5ASAsv8ffi8RIGvmqC3KGbrv-AA";
-
 export default function PostDetailPage() {
   const { id } = useParams();
   const [post, setPost] = useState(null);
@@ -76,18 +73,25 @@ export default function PostDetailPage() {
             {post.excerpt && <p>{post.excerpt}</p>}
           </header>
 
-          <button
-            type="button"
-            className={`post-detail__media post-detail__media--${post.imageLayout || "normal"}`}
-            onClick={() => setImageExpanded(true)}
-            aria-label="Ampliar imagen del post"
-          >
-            <img
-              src={resolvePostImageUrl(post.imageUrl) || fallbackNewsImage}
-              alt={post.title}
+          {post.imageUrl && (
+            <button
+              type="button"
+              className={`post-detail__media post-detail__media--${post.imageLayout || "normal"}`}
+              onClick={() => setImageExpanded(true)}
+              aria-label="Ampliar imagen del post"
+            >
+              <img src={resolvePostImageUrl(post.imageUrl)} alt={post.title} />
+              <span className="post-detail__media-hint">
+                Click para ampliar
+              </span>
+            </button>
+          )}
+          {!post.imageUrl && (
+            <div
+              className="post-detail__media post-detail__media--normal"
+              style={{ background: "#e5e7eb", minHeight: "300px" }}
             />
-            <span className="post-detail__media-hint">Click para ampliar</span>
-          </button>
+          )}
 
           <div className="post-detail__content">
             <p>{post.content}</p>
@@ -109,10 +113,15 @@ export default function PostDetailPage() {
               >
                 ×
               </button>
-              <img
-                src={resolvePostImageUrl(post.imageUrl) || fallbackNewsImage}
-                alt={post.title}
-              />
+              {post.imageUrl && (
+                <img
+                  src={resolvePostImageUrl(post.imageUrl)}
+                  alt={post.title}
+                />
+              )}
+              {!post.imageUrl && (
+                <div style={{ background: "#e5e7eb", height: "100%" }} />
+              )}
             </div>
           )}
         </article>

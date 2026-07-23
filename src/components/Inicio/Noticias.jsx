@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import { postsApi } from "../../api/postsApi";
 import { formatPostDate, resolvePostImageUrl } from "../../lib/posts";
 
-const fallbackNewsImage =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuBDE1haaerqpkwW7XgrNkUiGgWog9TfWGLiZrGP28d-XQ-5qXaozWdyMVG7R633a0sHzNNf9pCm4bNdalbgA6ZAKqTqY1MBod_4_ruhnUL6rpCxghon742FBi1h4YmmhzB8_bMaWHovlGW9JmP0hd3I5INdmJj6oSrENvhQqWZxw57b3SVdsdzd5rOZ7TLucUMjtieTB_HIv86TXLd7Y_9sVHM2o1o5ASAsv8ffi8RIGvmqC3KGbrv-AA";
-
 export default function Noticias() {
   const [newsData, setNewsData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -48,10 +45,15 @@ export default function Noticias() {
       <div className="noticias-grid">
         <article className="noticia-card noticia-card--featured">
           <div className="noticia-photo">
-            <img
-              src={resolvePostImageUrl(featured.imageUrl) || fallbackNewsImage}
-              alt={featured.title}
-            />
+            {featured.imageUrl && (
+              <img
+                src={resolvePostImageUrl(featured.imageUrl)}
+                alt={featured.title}
+              />
+            )}
+            {!featured.imageUrl && (
+              <div style={{ background: "#e5e7eb", height: "100%" }} />
+            )}
             <div className="noticia-overlay">
               <span className="noticia-cat">
                 {featured.category || "Actualidad"}
@@ -67,10 +69,15 @@ export default function Noticias() {
           {rest.map((news) => (
             <article className="noticia-card noticia-card--small" key={news.id}>
               <div className="noticia-photo">
-                <img
-                  src={resolvePostImageUrl(news.imageUrl) || fallbackNewsImage}
-                  alt={news.title}
-                />
+                {news.imageUrl && (
+                  <img
+                    src={resolvePostImageUrl(news.imageUrl)}
+                    alt={news.title}
+                  />
+                )}
+                {!news.imageUrl && (
+                  <div style={{ background: "#e5e7eb", height: "100%" }} />
+                )}
               </div>
               <div className="noticia-info">
                 <span className="noticia-cat">

@@ -4,9 +4,6 @@ import PublicLayout from "../layouts/PublicLayout";
 import { postsApi } from "../api/postsApi";
 import { formatPostDate, resolvePostImageUrl } from "../lib/posts";
 
-const fallbackNewsImage =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuBDE1haaerqpkwW7XgrNkUiGgWog9TfWGLiZrGP28d-XQ-5qXaozWdyMVG7R633a0sHzNNf9pCm4bNdalbgA6ZAKqTqY1MBod_4_ruhnUL6rpCxghon742FBi1h4YmmhzB8_bMaWHovlGW9JmP0hd3I5INdmJj6oSrENvhQqWZxw57b3SVdsdzd5rOZ7TLucUMjtieTB_HIv86TXLd7Y_9sVHM2o1o5ASAsv8ffi8RIGvmqC3KGbrv-AA";
-
 export default function PostsPage() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -68,10 +65,14 @@ export default function PostsPage() {
           {posts.map((post) => (
             <article key={post.id} className="posts-card">
               <div className="posts-card__media">
-                <img
-                  src={resolvePostImageUrl(post.imageUrl) || fallbackNewsImage}
-                  alt={post.title}
-                />
+                {post.imageUrl ? (
+                  <img
+                    src={resolvePostImageUrl(post.imageUrl)}
+                    alt={post.title}
+                  />
+                ) : (
+                  <div style={{ background: "#e5e7eb", height: "100%" }} />
+                )}
                 <span>{post.category || "Actualidad"}</span>
               </div>
               <div className="posts-card__body">
