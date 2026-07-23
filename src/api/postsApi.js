@@ -35,8 +35,8 @@ function buildQuery(params = {}) {
   return query.toString() ? `?${query.toString()}` : "";
 }
 
-const PUBLIC_LIST_ROUTES = ["/api/posts"];
-const PUBLIC_DETAIL_ROUTES = ["/api/posts"];
+const PUBLIC_LIST_ROUTES = ["/posts"];
+const PUBLIC_DETAIL_ROUTES = ["/posts"];
 const ADMIN_POSTS_ROUTES = ["/gestion/posts"];
 const CATEGORY_ROUTES = ["/gestion/post-categories"];
 
