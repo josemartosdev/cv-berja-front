@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, X } from "lucide-react";
 import GestionPageHeader from "../../components/gestion/GestionPageHeader";
 import GestionAlert from "../../components/gestion/GestionAlert";
-import PhotoUploadForm from "../../components/PhotoUploadForm";
+import DropzoneUpload from "../../components/DropzoneUpload";
 import { postsApi } from "../../api/postsApi";
 import { buildPostPayload } from "../../lib/posts";
 
@@ -16,7 +16,6 @@ const emptyForm = {
   publishedAt: "",
   published: true,
   categoryId: "",
-  imagenPath: "", // Campo para imagen_path de la BD
 };
 
 export default function PostEditorPage() {
@@ -26,12 +25,9 @@ export default function PostEditorPage() {
   const [loading, setLoading] = useState(isEditing);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
-  const [uploading, setUploading] = useState(false);
-  const [uploadError, setUploadError] = useState("");
   const [categories, setCategories] = useState([]);
   const [form, setForm] = useState(emptyForm);
   const [pendingImageFile, setPendingImageFile] = useState(null);
-  const [pendingImagePreview, setPendingImagePreview] = useState(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -91,7 +87,6 @@ export default function PostEditorPage() {
               imageUrl: imageResult.imagen_path || imageResult.url,
             });
             setPendingImageFile(null);
-            setPendingImagePreview(null);
           } catch (imgErr) {
             console.warn("Error al subir imagen:", imgErr);
             // No es error fatal, continuamos
@@ -201,86 +196,46 @@ export default function PostEditorPage() {
             </label>
 
             <div className="gestion-field gestion-field--full">
-              <PhotoUploadForm
-                title="Foto del post"
-                onSubmit={async ({ file }) => {
-                  setUploadError("");
-                  try {
-                    setPendingImageFile(file);
-                    // Crear preview local
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                      setPendingImagePreview(e.target.result);
-                    };
-                    reader.readAsDataURL(file);
-                  } catch (err) {
-                    setUploadError(err.message);
-                    throw err;
-                  }
+              <label
+                className="gestion-label"
+                style={{ display: "block", marginBottom: "0.75rem" }}
+              >
+                Foto del post
+              </label>
+              <DropzoneUpload
+                accept="image/*"
+                label="Arrastra una foto o haz clic para seleccionar"
+                onFileSelect={(file) => {
+                  setPendingImageFile(file);
+                  // El preview se genera automáticamente en DropzoneUpload
                 }}
-                loading={uploading}
-                error={uploadError}
-                showTitle={false}
-                showDisplay={false}
-                buttonText={
-                  isEditing
-                    ? "Cambiar foto del post"
-                    : "Seleccionar foto del post"
-                }
               />
-
-              {/* Mostrar preview de nueva imagen pendiente */}
-              {pendingImagePreview && (
-                <div style={{ marginBottom: "1rem", marginTop: "1rem" }}>
-                  <p
-                    style={{
-                      fontSize: "0.9rem",
-                      color: "#666",
-                      marginBottom: "0.5rem",
-                    }}
-                  >
-                    Nueva foto (se subirá al{" "}
-                    {isEditing ? "actualizar" : "crear"}):
-                  </p>
-                  <img
-                    src={pendingImagePreview}
-                    alt="New Preview"
-                    style={{
-                      maxWidth: "200px",
-                      maxHeight: "150px",
-                      borderRadius: 6,
-                      objectFit: "cover",
-                      border: "2px solid #4f46e5",
-                    }}
-                  />
-                </div>
-              )}
-
-              {/* Mostrar foto actual (si está editando) */}
-              {form.imageUrl && !pendingImagePreview && (
-                <div style={{ marginBottom: "1rem", marginTop: "1rem" }}>
-                  <p
-                    style={{
-                      fontSize: "0.9rem",
-                      color: "#666",
-                      marginBottom: "0.5rem",
-                    }}
-                  >
-                    Foto actual:
-                  </p>
-                  <img
-                    src={form.imageUrl}
-                    alt="Current"
-                    style={{
-                      maxWidth: "200px",
-                      maxHeight: "150px",
-                      borderRadius: 6,
-                      objectFit: "cover",
-                    }}
-                  />
-                </div>
-              )}
             </div>
+
+            {/* Mostrar foto actual si existe y no hay nueva seleccionada */}
+            {form.imageUrl && !pendingImageFile && (
+              <div className="gestion-field gestion-field--full">
+                <p
+                  style={{
+                    fontSize: "0.9rem",
+                    color: "#666",
+                    marginBottom: "0.5rem",
+                  }}
+                >
+                  Foto actual:
+                </p>
+                <img
+                  src={form.imageUrl}
+                  alt="Current"
+                  style={{
+                    maxWidth: "200px",
+                    maxHeight: "150px",
+                    borderRadius: 6,
+                    objectFit: "cover",
+                  }}
+                />
+              </div>
+            )}
 
             <label className="gestion-field">
               <span>Tamaño de imagen</span>
