@@ -29,6 +29,8 @@ import AdminRoute from "./components/gestion/AdminRoute";
 import StaffRoute from "./components/gestion/StaffRoute";
 import PlayerOnlyRoute from "./components/gestion/PlayerOnlyRoute";
 import MiFichaPage from "./pages/gestion/MiFichaPage";
+import GaleriaPage from "./pages/GaleriaPage";
+import GaleriaGestionPage from "./pages/gestion/GaleriaGestionPage";
 import "./App.css";
 
 function App() {
@@ -46,6 +48,7 @@ function App() {
         <Route path="/calendario" element={<CalendarioPage />} />
         <Route path="/posts" element={<PostsPage />} />
         <Route path="/posts/:id" element={<PostDetailPage />} />
+        <Route path="/galeria" element={<GaleriaPage />} />
         <Route path="/login" element={<Login />} />
 
         <Route element={<ProtectedRoute />}>
@@ -73,6 +76,7 @@ function App() {
                   element={<EntrenadorDetallePage />}
                 />
                 <Route path="posts" element={<GestionPostsPage />} />
+                <Route path="galeria" element={<GaleriaGestionPage />} />
               </Route>
               <Route path="contabilidad" element={<ContabilidadPage />} />
               <Route element={<SuperAdminRoute />}>
