@@ -18,6 +18,11 @@ export async function apiFetch(path, options = {}) {
   const token = getAuthToken();
   const headers = {};
 
+  // DEBUG
+  console.log(
+    `[apiFetch] Path: ${path}, Token exists: ${!!token}, auth flag: ${options.auth}`,
+  );
+
   // Solo agregar Content-Type si no es FormData
   if (!(options.body instanceof FormData)) {
     headers["Content-Type"] = "application/json";
@@ -29,6 +34,9 @@ export async function apiFetch(path, options = {}) {
   // Solo agregar token si options.auth !== false y tenemos token
   if (options.auth !== false && token) {
     headers.Authorization = `Bearer ${token}`;
+    console.log(`[apiFetch] ✅ Token added to Authorization header`);
+  } else if (options.auth !== false && !token) {
+    console.log(`[apiFetch] ⚠️  No token available for protected request`);
   }
 
   const res = await fetch(apiUrl(path), {
